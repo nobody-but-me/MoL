@@ -8,7 +8,7 @@ _CC=gcc
 _FLAGS=-lglfw
 _SOURCES=./src/*.c
 
-$_CC -o ./build/MoL $_SOURCES -I./include/ $_FLAGS -Werror -Wall
+$_CC -o ./build/MoL $_SOURCES -I./include/ $_FLAGS -Werror -Wall -Wno-unused-variable -Wno-maybe-uninitialized
 
 if [ $_run == "y" ]; then
     echo "[INFO] Compiled Successfully. "
