@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-echo "[CONFIG] Do you want to run the project after this compilateion? "
+# git push -f origin main
+
+echo "[CONFIG] Do you want to run the project after this compilation? "
 read -rep $"[CONFIG] (y or n): " _run
 
 
@@ -8,7 +10,7 @@ _CC=gcc
 _FLAGS=-lglfw
 _SOURCES=./src/*.c
 
-$_CC -o ./build/MoL $_SOURCES -I./include/ $_FLAGS -Werror -Wall -Wno-unused-variable -Wno-maybe-uninitialized
+time $_CC -o ./build/MoL $_SOURCES -I./include/ -I./lib/ $_FLAGS -lm -Werror -Wall -Wno-unused-variable -Wno-maybe-uninitialize
 
 if [ $_run == "y" ]; then
     echo "[INFO] Compiled Successfully. "
