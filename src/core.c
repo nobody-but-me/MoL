@@ -6,6 +6,8 @@
 #include <glad.h>
 #include <GLFW/glfw3.h>
 
+#include <cglm/call.h>
+
 #include <object.h>
 #define MOLSON_IMPLEMENTATION
 #include <molson.h>
@@ -19,6 +21,12 @@ enum Application(_engine_state) Application(_current_state);
 GLFWwindow *Application(_window);
 int Application(_height);
 int Application(_width);
+
+// TODO: make these variables non-global;
+Texture2D _texture;
+Sprite _sprite;
+Shader _shader;
+
 
 void Application(_set_current_engine_state)(enum Application(_engine_state) _new_state) {
   Application(_current_state) = _new_state;
@@ -76,14 +84,27 @@ void Application(_init)() {
   }
   glfwSetFramebufferSizeCallback(Application(_window), _window_resized_callback);
   glEnable(GL_DEPTH_TEST);
+
+ 
+  Molson(_init_shader)("./shaders/object.vert", "./shaders/object.frag", &_shader);
+  
+  mat4 _projection;
+  glm_mat4_identity(_projection);
+  glm_ortho(0.0f, WIDTH, HEIGHT, 0.0f, -1.0f, 1.0f, _projection);
+  /* glm_perspective(0.0f, WIDTH / HEIGHT, 0.1f, 100.0f, _projection); */
+  
+  Molson(_set_matrix4)("_projection", &_projection, true, &_shader);
+  Molson(_set_int)("_object_image", 0, true, &_shader);
+
+  _sprite = Object(_new_sprite)();
+  Molson(_init_texture2d)(&_texture);
+  Molson(_load_texture2d)("./assets/jameslee?.png", true, &_texture);
   
   Application(_set_current_engine_state)(Application(_EDITOR));
   printf("[INFO] Application initialized. \n");
   return;
 }
 
-Triangle _triangle;
-Shader _shader;
 void Application(_destroy)() {
   glfwDestroyWindow(Application(_window));
   Molson(_destroy)(&_shader);
@@ -94,12 +115,13 @@ void Application(_destroy)() {
 
 int Application(_ready)() {
   printf("[INFO] Hello, MoL! \n");
-  _shader = Molson(_init)("./shaders/object.vert", "./shaders/object.frag");
-  _triangle = Object(_new_triangle)();
+  /* _triangle = Object(_new_triangle)(); */
   return 0;
 }
 
 int Application(_loop)() {
-  Object(_render_triangle)(&_triangle, &_shader);
+  /* void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader); */
+  Object(_render_sprite)(&_texture, (vec2){165.0f, 165.0f}, (vec2){350.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_sprite, &_shader);
+  /* Object(_render_triangle)(&_triangle, &_shader); */
   return 0;
 }

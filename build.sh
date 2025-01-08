@@ -10,7 +10,9 @@ _CC=gcc
 _FLAGS=-lglfw
 _SOURCES=./src/*.c
 
-time $_CC -o ./build/MoL $_SOURCES -I./include/ -I./lib/ $_FLAGS -lm -Werror -Wall -Wno-unused-variable -Wno-maybe-uninitialize
+# -Wno-maybe-uninitialize
+
+time $_CC -o ./build/MoL $_SOURCES -I./include/ -I./lib/ $_FLAGS -lm -Werror -Wall -Wno-unused-variable -Wno-int-conversion
 
 if [ $_run == "y" ]; then
     echo "[INFO] Compiled Successfully. "

@@ -1,8 +1,11 @@
 #version 330 core
 
-out vec4 _fragment_colour;
-in vec3 _obj_colour;
+in vec2 _texture_coords;
+out vec4 _object_colour;
+
+uniform sampler2D _object_image;
+uniform vec3 _colour;
 
 void main() {
-    _fragment_colour = vec4(_obj_colour, 1.0f);
+    _object_colour = vec4(_colour, 1.0f) * texture(_object_image, _texture_coords);
 }

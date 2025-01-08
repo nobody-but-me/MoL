@@ -18,10 +18,10 @@ typedef struct {
   unsigned int _vao;
   unsigned int _ebo;
   
-  mat3  _transform;
+  mat4  _transform;
   float _rotation;
-  vec2  _position;
-  vec2 _scale;
+  vec3 _position;
+  vec3 _scale;
   
   unsigned int _texture;
   bool _texture_flip;
@@ -36,11 +36,20 @@ typedef struct {
   
 } Triangle;
 
-/* Rectangle Object(_new_rectangle)(float _width, float _heigth, float x, float y, const char *_texture_path, bool _texture_flip); */
-/* void Object(_render_rectangle)(Rectangle *_self, Shader *_shader); */
-/* void Object(_kill)(Object _self, Shader *_shader); */
+typedef struct {
+
+  const char *_name;
+  
+  Object _object;
+  
+} Sprite;
+
 void Object(_render_triangle)(Triangle *_triangle, Shader *_shader);
-void Object(_kill)(Object *_self);
 Triangle Object(_new_triangle)();
+
+void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader);
+Sprite Object(_new_sprite)();
+
+void Object(_kill)(Object *_self);
 
 #endif//OBJECT_H

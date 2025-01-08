@@ -5,16 +5,26 @@
 
 #include <glad.h>
 #include <GLFW/glfw3.h>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+
+#include <cglm/call.h>
 
 #include <object.h>
 #include <molson.h>
 
 
 void Object(_render_triangle)(Triangle *_triangle, Shader *_shader) {
+  /* _triangle->_object._position[0] = 1.0f; */
+  /* _triangle->_object._position[1] = 1.0f; */
+  /* _triangle->_object._position[2] = 1.0f; */
+  
+  glm_mat4_identity(_triangle->_object._transform);
+  glm_translate(_triangle->_object._transform, (vec3){1.0f, 1.0f, 1.0f});
+  glm_rotate(_triangle->_object._transform, (float)glfwGetTime(), (vec3){ 1.0f, 1.0f, 0.0f });
+  
   Molson(_use)(_shader);
-  /* glUseProgram(_shader->ID); */
+  unsigned int _transform_loc = glGetUniformLocation(_shader->ID, "_transform");
+  glUniformMatrix4fv(_transform_loc, 1, GL_FALSE, (float *)_triangle->_object._transform);
+  
   glBindVertexArray(_triangle->_object._vao);
   glDrawArrays(GL_TRIANGLES, 0, 3);
   return;
@@ -31,9 +41,9 @@ Triangle Object(_new_triangle)() {
   _triangle._name = "triangle name just to initialize this shit";
 
   float _vertices[] = {
-    -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // left
-     0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // right
-     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top
+    -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
+     0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
+     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f
   };
   glGenVertexArrays(1, &_triangle._object._vao);
   glGenBuffers(1, &_triangle._object._vbo);
@@ -54,11 +64,64 @@ Triangle Object(_new_triangle)() {
 
   GLenum error = glGetError();
   if (error != GL_NO_ERROR) {
-    /* std::cerr << "OpenGL Error: " << error << std::endl; */
     printf("[INFO] OpenGL Error");
   }
   return _triangle;
 }
 
 
+void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader) {
+  Molson(_use)(_shader);
 
+  mat4 _transform;
+  glm_mat4_identity(_transform);
+  glm_translate(_transform, (vec3){_position[0], _position[1], 0.0f});
+  
+  glm_translate( _transform, (vec3){ 0.5f * _scale[0], 0.5f * _scale[1], 0.0f } );
+  glm_rotate( _transform, _rotation, (vec3){ 0.0f, 0.0f, 1.0f } );
+  glm_translate( _transform, (vec3){ -0.5f * _scale[0], -0.5f * _scale[1], 0.0f } );
+
+  glm_scale(_transform, (vec3){ _scale[0], _scale[1], 1.0f });
+  
+  Molson(_set_vector3_f)("_colour", _colour, false, _shader);
+  Molson(_set_matrix4)("_transform", &_transform, false, _shader);
+
+  glActiveTexture(GL_TEXTURE0);
+  Molson(_bind_texture2d)(_texture);
+  
+  glBindVertexArray(_sprite->_object._vao);
+  glDrawArrays(GL_TRIANGLES, 0, 6);
+  glBindVertexArray(0);
+  
+  return;
+}
+
+Sprite Object(_new_sprite)() {
+  Sprite _sprite;
+  _sprite._name = "a name to initialize this shit";
+  
+  float _vertices[] = {
+    
+    0.0f, 1.0f, 0.0f, 1.0f,
+    1.0f, 0.0f, 1.0f, 0.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, 
+    
+    0.0f, 1.0f, 0.0f, 1.0f,
+    1.0f, 1.0f, 1.0f, 1.0f,
+    1.0f, 0.0f, 1.0f, 0.0f
+    
+  };
+  glGenVertexArrays(1, &_sprite._object._vao);
+  glGenBuffers(1, &_sprite._object._vbo);
+  
+  glBindBuffer(GL_ARRAY_BUFFER, _sprite._object._vbo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices, GL_STATIC_DRAW);
+
+  glBindVertexArray(_sprite._object._vao);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+  glEnableVertexAttribArray(0);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindVertexArray(0);
+  return _sprite;
+}

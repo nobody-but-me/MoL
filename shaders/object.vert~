@@ -1,18 +1,11 @@
 #version 330 core
 
-layout (location = 2) in vec2 _object_tex_coord;
-layout (location = 1) in vec4 _object_color;
+layout (location = 1) in vec3 _object_colour;
 layout (location = 0) in vec3 _object_pos;
 
-out vec2 _obj_tex_coord;
-out vec4 _obj_color;
-
-# uniform mat4 _projection;
-uniform mat4 _transform;
-uniform mat4 _view;
+out vec3 _obj_colour;
 
 void main() {
-     gl_Position = _view * _transform * vec4(_object_pos, 1.0f);
-     _obj_tex_coord = _object_tex_coord;
-     _obj_color = _object_color;
+     gl_Position = vec4(_object_pos, 1.0);
+     _obj_colour = _object_colour;
 }
