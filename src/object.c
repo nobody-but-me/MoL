@@ -8,15 +8,13 @@
 
 #include <cglm/call.h>
 
+#include <resource_manager.h>
 #include <object.h>
 #include <molson.h>
+#include <data.h>
 
 
 void Object(_render_triangle)(Triangle *_triangle, Shader *_shader) {
-  /* _triangle->_object._position[0] = 1.0f; */
-  /* _triangle->_object._position[1] = 1.0f; */
-  /* _triangle->_object._position[2] = 1.0f; */
-  
   glm_mat4_identity(_triangle->_object._transform);
   glm_translate(_triangle->_object._transform, (vec3){1.0f, 1.0f, 1.0f});
   glm_rotate(_triangle->_object._transform, (float)glfwGetTime(), (vec3){ 1.0f, 1.0f, 0.0f });
@@ -87,7 +85,7 @@ void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, fl
   Molson(_set_matrix4)("_transform", &_transform, false, _shader);
 
   glActiveTexture(GL_TEXTURE0);
-  Molson(_bind_texture2d)(_texture);
+  ResourceManager(_bind_texture2d)(_texture);
   
   glBindVertexArray(_sprite->_object._vao);
   glDrawArrays(GL_TRIANGLES, 0, 6);

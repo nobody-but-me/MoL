@@ -9,39 +9,18 @@
 
 #include <cglm/call.h>
 #include <molson.h>
+#include "./data.h"
 
 #define Object(x) object##x
 
 typedef struct {
-
-  unsigned int _vbo;
-  unsigned int _vao;
-  unsigned int _ebo;
-  
-  mat4  _transform;
-  float _rotation;
-  vec3 _position;
-  vec3 _scale;
-  
-  unsigned int _texture;
-  bool _texture_flip;
-  
-} Object;
-
-typedef struct {
-
-  const char *_name;
-  
-  Object _object;
-  
+    const char *_name;
+    Object _object;
 } Triangle;
 
 typedef struct {
-
-  const char *_name;
-  
-  Object _object;
-  
+    const char *_name;
+    Object _object;
 } Sprite;
 
 void Object(_render_triangle)(Triangle *_triangle, Shader *_shader);

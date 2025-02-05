@@ -1,0 +1,12 @@
+["a"]: [ 
+	["String"]: "YOUR DAD IS SO HOT AND I WANT TO EAT HIM";
+	["Number"]: 18; 
+	["Bool"]: false; 
+	["Null"]: NULL; 
+	["Object2"]: [ 
+		["IDK"]: "I really don't know"; 
+		["Object3"]: [ 
+			["String"]: "Miranda's dad";
+		];
+	];
+];
