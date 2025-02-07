@@ -24,7 +24,7 @@ typedef struct {
 } TOKEN;
 
 TOKEN Molang(_create_token)(int _type, const char *_value);
-void Molang(_lexer)(const char *_file);
+MAP Molang(_lexer)(const char *_file);
 MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size);
 
 #endif//MOLANG_H
@@ -47,7 +47,20 @@ TOKEN Molang(_create_token)(int _type, const char *_value) {
     return _token;
 }
 
-void Molang(_lexer)(const char *_file) {
+static char *_num_to_ascii(int _number) {
+    
+    char *_string = malloc(1);
+    if (!_string) {
+	printf("[INFO] _num_to_ascii() :: _string memory allocation failed. \n");
+	return 0;
+    }
+    _string = _number;
+    _string[1] = 0;
+    
+    return _string;
+}
+
+MAP Molang(_lexer)(const char *_file) {
     TOKEN *_tokens = (TOKEN *)malloc(strlen(_file) * sizeof(TOKEN));
     int _current_position = 0;
     
@@ -58,6 +71,7 @@ void Molang(_lexer)(const char *_file) {
     // printf("\n[INFO] %s. \n\n", _name);
     
     printf("\n--------------------------------------------------\n\n");
+    printf("[INFO] Lexing... \n");
     while (_current_position < strlen(_file)) {
 	char _token = _file[_current_position];
 	
@@ -86,24 +100,31 @@ void Molang(_lexer)(const char *_file) {
 	    continue;
 	}
 	else if (isdigit(_token)) {
-	    printf("[INFO] Token value: %d. \n", _token);
 	    const int _previous_current_position = _current_position;
 	    char *_value = "";
+	    char *_new_value;
 	    
 	    size_t _length;
+	    _token = _file[_current_position];
 	    while (isdigit(_token)) {
-		// printf("[INFO]    Number: %c. \n", _token);
-		// _value += sprintf(_token);
 		
 		_length = strlen(_value);
-		_value = malloc(_length + sizeof(_token));
-		sprintf(_value, "%d", _token);
-		printf("[INFO] Value value: %s. \n", _value);
+		_new_value = malloc(_length + 2);
+		strcpy(_new_value, _value);
+		_new_value[_length] = (char)_token;
+		_new_value[_length + 1] = '\0';
+		_value = malloc(strlen(_new_value) + 1);
+		strcpy(_value, _new_value);
 		
 		_current_position += 1;
 		_token = _file[_current_position];
 	    }
-	    _tokens[_current_position] = Molang(_create_token)(_NUMBER, _value);
+	    // printf("[INFO] _value = %s. \n", _value);
+	    _token = _file[_current_position];
+	    
+	    const int _amount_to_back = _current_position - _previous_current_position;
+	    _tokens[_current_position - _amount_to_back] = Molang(_create_token)(_NUMBER, _value);
+	    free(_new_value);
 	    continue;
 	}
 	else if (_token == '"') {
@@ -177,10 +198,12 @@ void Molang(_lexer)(const char *_file) {
 	}
 	_current_position++;
     }
-    Molang(_parser)(_tokens, strlen(_file));
+    printf("[INFO] Lexing process had been finished. Starting parsering process. \n");
+    MAP _final_map = Molang(_parser)(_tokens, strlen(_file));
     free(_tokens);
+    printf("[INFO] Parsering process had been finished. \n");
     printf("\n--------------------------------------------------\n\n");
-    return;
+    return _final_map;
 }
 
 MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
@@ -194,6 +217,7 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 	) {
 	    _current_position++;
 	    // printf("[INFO] Current string: %s. \n", _tokens[_current_position]._value);
+	    char *_variable_name = (char *)_tokens[_current_position]._value;
 	    while (_tokens[_current_position]._type != _CLOSE_BRACKET) {
 		_current_position++;
 	    }
@@ -207,23 +231,39 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 		}
 		if (_tokens[_current_position]._type == _OPEN_BRACKET) {
 		    printf("[INFO] Object had been found. \n");
-		    continue;
+		    // _map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
 		}
 		else if (_tokens[_current_position]._type == _STRING) {
-		    printf("[INFO] String had been found. \n");
+		    // printf("[INFO] String had been found. \n");
+		    // printf("    String value: %s. \n", _tokens[_current_position]._value);
+		    
+		    _map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
 		}
 		else if (_tokens[_current_position]._type == _NUMBER) {
-		    printf("[INFO] Number had been found. \n");
-		    printf("    Number: %s. \n", _tokens[_current_position]._value);
+		    // printf("[INFO] Number had been found. \n");
+		    // printf("    Number value: %s. \n", _tokens[_current_position]._value);
+		    
+		    _map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
 		}
-		
+		else if (_tokens[_current_position]._type == _NULL) {
+		    // printf("[INFO] NULL had been found. \n");
+		    _map_insert(_variable_name, NULL, &_output_map);
+		}
+		else if (_tokens[_current_position]._type == _FALSE) {
+		    // printf("[INFO] False had been found. \n");
+		    _map_insert(_variable_name, false, &_output_map);
+		}
+		else if (_tokens[_current_position]._type == _TRUE) {
+		    // printf("[INFO] True had been found. \n");
+		    _map_insert(_variable_name, true, &_output_map);
+		}
 	    }
+	    free(_variable_name);
 	}
 	
 	_current_position++;
     }
-    
-    _map_insert("shit", "shit just to initialize it", &_output_map);
+    // _map_printf(&_output_map);
     return _output_map;
 }
 

@@ -1,7 +1,7 @@
 
 #!/usr/bin/env bash
 
-# git 
+# git commit -am "<message>"
 # git push -f origin main
 
 # echo "[CONFIG] Do you want to run the project after this compilation? "
@@ -12,7 +12,7 @@ _FLAGS=(-lglfw)
 _SOURCES=./src/*.c
 
 compile() {
-    time $_CC -o ./build/MoL $_SOURCES -I./include/ -I./lib/ ${_FLAGS[*]} -lm -Werror -Wall -Wno-unused-variable -Wno-int-conversion
+    time $_CC -o ./build/MoL $_SOURCES -I./include/ -I./lib/ ${_FLAGS[*]} -lm -Werror -Wall -Wno-unused-variable -Wno-int-conversion -Wno-unused-function
 }
 
 if [ $1 == "--c" ]; then
