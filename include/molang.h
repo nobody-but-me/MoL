@@ -12,11 +12,12 @@ enum TOKENS {
     _SEMICOLON		= 2,
     _NUMBER		= 3,
     _STRING		= 4,
-    _SPACE		= 5,
-    _COLON		= 6,
-    _FALSE		= 7,
-    _TRUE		= 8,
-    _NULL		= 9,
+    _FLOAT		= 5,
+    _SPACE		= 6,
+    _COLON		= 7,
+    _FALSE		= 8,
+    _TRUE		= 9,
+    _NULL		= 10,
 };
 typedef struct {
     const char *_value;
@@ -101,12 +102,17 @@ MAP Molang(_lexer)(const char *_file) {
 	}
 	else if (isdigit(_token)) {
 	    const int _previous_current_position = _current_position;
+	    bool _float = false;
 	    char *_value = "";
 	    char *_new_value;
 	    
 	    size_t _length;
 	    _token = _file[_current_position];
-	    while (isdigit(_token)) {
+	    while (isdigit(_token) || _token == '.') {
+		
+		if (_token == '.') {
+		    _float = true;
+		}
 		
 		_length = strlen(_value);
 		_new_value = malloc(_length + 2);
@@ -123,7 +129,12 @@ MAP Molang(_lexer)(const char *_file) {
 	    _token = _file[_current_position];
 	    
 	    const int _amount_to_back = _current_position - _previous_current_position;
-	    _tokens[_current_position - _amount_to_back] = Molang(_create_token)(_NUMBER, _value);
+	    if (_float == false) {
+		_tokens[_current_position - _amount_to_back] = Molang(_create_token)(_NUMBER, _value);
+		free(_new_value);
+		continue;
+	    }
+	    _tokens[_current_position - _amount_to_back] = Molang(_create_token)(_FLOAT, _value);
 	    free(_new_value);
 	    continue;
 	}
@@ -231,30 +242,25 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 		}
 		if (_tokens[_current_position]._type == _OPEN_BRACKET) {
 		    printf("[INFO] Object had been found. \n");
-		    // _map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
 		}
 		else if (_tokens[_current_position]._type == _STRING) {
-		    // printf("[INFO] String had been found. \n");
-		    // printf("    String value: %s. \n", _tokens[_current_position]._value);
-		    
 		    _map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
 		}
 		else if (_tokens[_current_position]._type == _NUMBER) {
-		    // printf("[INFO] Number had been found. \n");
-		    // printf("    Number value: %s. \n", _tokens[_current_position]._value);
-		    
-		    _map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
+		    int _value = atoll(_tokens[_current_position]._value);
+		    _map_insert(_variable_name, &_value, &_output_map);
+		}
+		else if (_tokens[_current_position]._type == _FLOAT) {
+		    float _value = atof(_tokens[_current_position]._value);
+		    _map_insert(_variable_name, &_value, &_output_map);
 		}
 		else if (_tokens[_current_position]._type == _NULL) {
-		    // printf("[INFO] NULL had been found. \n");
 		    _map_insert(_variable_name, NULL, &_output_map);
 		}
 		else if (_tokens[_current_position]._type == _FALSE) {
-		    // printf("[INFO] False had been found. \n");
 		    _map_insert(_variable_name, false, &_output_map);
 		}
 		else if (_tokens[_current_position]._type == _TRUE) {
-		    // printf("[INFO] True had been found. \n");
 		    _map_insert(_variable_name, true, &_output_map);
 		}
 	    }

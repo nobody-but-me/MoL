@@ -1,5 +1,5 @@
 ["a"]: [ 
-	["String"]: "YOUR DAD IS SO HOT AND I WANT TO EAT HIM";
+	["String"]: "Maturity";
 	["Number"]: 18; 
 	["Bool"]: false; 
 	["Null"]: NULL; 
@@ -9,4 +9,5 @@
 			["String"]: "Miranda's dad";
 		];
 	];
+	["Float"]: 42.0;
 ];
