@@ -21,7 +21,7 @@ if [ $1 == "--c" ]; then
 elif [ $1 == "--r" ]; then
     echo -e "[INFO] Running... \n"
     ./run.sh
-elif [ $1 == "--cr" ]; then
+elif [ $1 == "--b" ]; then
     compile;
     echo "[INFO] Compiled Successfully. "
     echo -e "[INFO] Running... \n"

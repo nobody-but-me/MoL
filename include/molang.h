@@ -217,18 +217,33 @@ MAP Molang(_lexer)(const char *_file) {
     return _final_map;
 }
 
+static char *_concatenate_strings(char *_string_1, char *_string_2) {
+    
+    char *_result = malloc(strlen(_string_1) + strlen(_string_2) + 1);
+    if (_result  == NULL) {
+	fprintf(stderr, "[FAILED] _concatenate_strings :: Failed at concatenating strings. \n");
+	return "";
+    }
+    strcpy(_result, _string_1);
+    strcat(_result, _string_2);
+    _result[strlen(_string_1) + strlen(_string_2)] = '\0';
+    
+    return _result;
+}
+
 MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
+    char *_namespace_name = "";
     int _current_position = 0;
     MAP _output_map;
     
     while (_current_position < _array_size) {
-	
+	// TODO: Code a better namespace system. This sucks;
 	if (_tokens[_current_position]._type == _OPEN_BRACKET &&
 	    _tokens[_current_position + 1]._type == _STRING
 	) {
 	    _current_position++;
 	    // printf("[INFO] Current string: %s. \n", _tokens[_current_position]._value);
-	    char *_variable_name = (char *)_tokens[_current_position]._value;
+	    char *_variable_name  = (char *)_tokens[_current_position]._value;
 	    while (_tokens[_current_position]._type != _CLOSE_BRACKET) {
 		_current_position++;
 	    }
@@ -240,29 +255,104 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 		while(_tokens[_current_position]._type == _SPACE) {
 		    _current_position++;
 		}
+
+		// --------------------------------------------------
+		printf("[INFO] Current token type being 'lexed': %d. \n", _tokens[_current_position]._type);
 		if (_tokens[_current_position]._type == _OPEN_BRACKET) {
-		    printf("[INFO] Object had been found. \n");
+		    
+		    _namespace_name = malloc(strlen(_variable_name) + 1);
+		    if (_namespace_name == NULL) {
+			fprintf(stderr, "[FAILED] Failed at concatenating proper namespace string. \n");
+			break;
+		    }
+		    strcpy(_namespace_name, _variable_name);
+		    _namespace_name[strlen(_variable_name)] = '\0';
+		    
+		    printf("[INFO] Namespace %s had been found. \n", _namespace_name);
 		}
 		else if (_tokens[_current_position]._type == _STRING) {
-		    _map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
+		    
+		    if (strlen(_namespace_name) > 0) {
+			char *_namespace_variable_name = _concatenate_strings(_namespace_name, _variable_name);
+			
+			_map_insert(_namespace_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
+			free(_namespace_variable_name);
+			continue;
+		    }
+		    else {
+			_map_insert(_variable_name, (char *)_tokens[_current_position]._value, &_output_map);
+		    }
 		}
 		else if (_tokens[_current_position]._type == _NUMBER) {
+		    
 		    int _value = atoll(_tokens[_current_position]._value);
-		    _map_insert(_variable_name, &_value, &_output_map);
+		    if (strlen(_namespace_name) > 0) {
+			char *_namespace_variable_name = _concatenate_strings(_namespace_name, _variable_name);
+			
+			_map_insert(_namespace_variable_name, &_value, &_output_map);
+			free(_namespace_variable_name);
+			continue;
+		    }
+		    else {
+			_map_insert(_variable_name, &_value, &_output_map);
+		    }
 		}
 		else if (_tokens[_current_position]._type == _FLOAT) {
 		    float _value = atof(_tokens[_current_position]._value);
-		    _map_insert(_variable_name, &_value, &_output_map);
+		    if (strlen(_namespace_name) > 0) {
+			char *_namespace_variable_name = _concatenate_strings(_namespace_name, _variable_name);
+			
+			_map_insert(_namespace_variable_name, &_value, &_output_map);
+			free(_namespace_variable_name);
+			continue;
+		    }
+		    else {
+			_map_insert(_variable_name, &_value, &_output_map);
+		    }
 		}
 		else if (_tokens[_current_position]._type == _NULL) {
-		    _map_insert(_variable_name, NULL, &_output_map);
+		    
+		    if (strlen(_namespace_name) > 0) {
+			char *_namespace_variable_name = _concatenate_strings(_namespace_name, _variable_name);
+			
+			_map_insert(_namespace_variable_name, NULL, &_output_map);
+			free(_namespace_variable_name);
+			continue;
+		    }
+		    else {
+			_map_insert(_variable_name, NULL, &_output_map);
+		    }
 		}
 		else if (_tokens[_current_position]._type == _FALSE) {
-		    _map_insert(_variable_name, false, &_output_map);
+		    
+		    if (strlen(_namespace_name) > 0) {
+			char *_namespace_variable_name = _concatenate_strings(_namespace_name, _variable_name);
+			
+			_map_insert(_namespace_variable_name, false, &_output_map);
+			free(_namespace_variable_name);
+			continue;
+		    }
+		    else {
+			_map_insert(_variable_name, false, &_output_map);
+		    }
 		}
 		else if (_tokens[_current_position]._type == _TRUE) {
-		    _map_insert(_variable_name, true, &_output_map);
+		    if (strlen(_namespace_name) > 0) {
+			char *_namespace_variable_name = _concatenate_strings(_namespace_name, _variable_name);
+			
+			_map_insert(_namespace_variable_name, true, &_output_map);
+			free(_namespace_variable_name);
+			continue;
+		    }
+		    else {
+			_map_insert(_variable_name, true, &_output_map);
+		    }
 		}
+	    }
+	    else if (_tokens[_current_position]._type == _CLOSE_BRACKET &&
+	        _tokens[_current_position + 1]._type == _SEMICOLON
+	    ) {
+		// TODO here
 	    }
 	    free(_variable_name);
 	}

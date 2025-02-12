@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     
     const char *_test_file = Molson(_file_to_string)("./assets/test");
     MAP _test_map = Molang(_lexer)(_test_file);
-    float *_idk = _map_get("Float", &_test_map);
+    float *_idk = _map_namespace_get("Object3", "Float", &_test_map);
     printf("[INFO] IDK value: %.1ff. \n", *_idk);
     
     Application(_ready)();

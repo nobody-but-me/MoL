@@ -5,3 +5,21 @@ This is(more and less) my first attempt creating a real game engine. All other s
 Thus, the code will obviously suck -- and, actually, it already does. I won't pretend -- especially for myself -- that I can write good code when I simply can't. So, do expect unsafe code, grotesque errors regarding to optimization and building and many more.
 
 Furthermore, I'm going to try not to suddenly rewrite this engine again, but I don't promise anything.
+
+## How to build
+
+No silly build tools or anything. Just compiling and running. That should be something to think about.
+
+Dependencies:
+- glfw;
+- glad;
+
+Command to build (compile and run):
+> ./build.sh --b
+
+Command only to compile:
+> ./build.sh --c
+
+Command only to run:
+> ./build.sh --r
+
