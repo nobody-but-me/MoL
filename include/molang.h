@@ -232,6 +232,7 @@ static char *_concatenate_strings(char *_string_1, char *_string_2) {
 }
 
 MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
+    char *_namespaces_list[_MAX_ARRAY_SIZE];
     char *_namespace_name = "";
     int _current_position = 0;
     MAP _output_map;
@@ -242,7 +243,6 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 	    _tokens[_current_position + 1]._type == _STRING
 	) {
 	    _current_position++;
-	    // printf("[INFO] Current string: %s. \n", _tokens[_current_position]._value);
 	    char *_variable_name  = (char *)_tokens[_current_position]._value;
 	    while (_tokens[_current_position]._type != _CLOSE_BRACKET) {
 		_current_position++;
@@ -257,7 +257,7 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 		}
 
 		// --------------------------------------------------
-		printf("[INFO] Current token type being 'lexed': %d. \n", _tokens[_current_position]._type);
+		// printf("[INFO] Current token type being 'lexed': %d. \n", _tokens[_current_position]._type);
 		if (_tokens[_current_position]._type == _OPEN_BRACKET) {
 		    
 		    _namespace_name = malloc(strlen(_variable_name) + 1);
@@ -267,6 +267,14 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 		    }
 		    strcpy(_namespace_name, _variable_name);
 		    _namespace_name[strlen(_variable_name)] = '\0';
+		    
+		    // printf("[INFO] Array size: %ld. \n", sizeof(_namespaces_list) / sizeof(_namespaces_list[0]));
+		    for (int i = 0; i < sizeof(_namespaces_list) / sizeof(_namespaces_list[0]); i++) {
+			if (_namespaces_list[i] == NULL) {
+			    _namespaces_list[i] = _namespace_name;
+			    break;
+			}
+		    }
 		    
 		    printf("[INFO] Namespace %s had been found. \n", _namespace_name);
 		}
@@ -349,14 +357,35 @@ MAP Molang(_parser)(TOKEN _tokens[], size_t _array_size) {
 		    }
 		}
 	    }
-	    else if (_tokens[_current_position]._type == _CLOSE_BRACKET &&
-	        _tokens[_current_position + 1]._type == _SEMICOLON
-	    ) {
-		// TODO here
-	    }
 	    free(_variable_name);
+	    _current_position++;
 	}
-	
+	else if (_tokens[_current_position]._type == _CLOSE_BRACKET &&
+	         _tokens[_current_position + 1]._type == _SEMICOLON
+	) {
+	    size_t _array_length = sizeof(_namespaces_list) / sizeof(_namespaces_list[0]);
+	    for (int i = 0; i < _array_length; i++) {
+		if (_namespaces_list[i] != NULL) {
+		    if (strcmp(_namespaces_list[i], _namespace_name) != 0) {
+			continue;
+		    }
+		    else {
+			if (i > 0) {
+			    _namespace_name = malloc(strlen(_namespaces_list[i - 1]) + 1);
+			    strcpy(_namespace_name, _namespaces_list[i -1]);
+			    _namespace_name[strlen(_namespaces_list[i - 1])] = '\0';
+			    // printf("[INFO] New current namespace: %s. \n", _namespace_name);
+			    break;
+			}
+			else {
+			    _namespace_name = "";
+			    // printf("[INFO] New current namespace: %s. \n", _namespace_name);
+			    break;
+			}
+		    }
+		}
+	    }
+	}
 	_current_position++;
     }
     // _map_printf(&_output_map);
