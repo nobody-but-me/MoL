@@ -16,8 +16,8 @@
 #include <data.h>
 
 #define TITLE "MoL  ̶g̶a̶m̶e̶(physics) engine"
+#define WIDTH  800
 #define HEIGHT 600
-#define WIDTH 800
 
 ENGINE_STATE _current_state;
 GLFWwindow *_window;

@@ -1,3 +1,9 @@
+// example:
+
+// const char *_test_file = Molson(_file_to_string)("./assets/test");
+// MAP _test_map = Molang(_lexer)(_test_file);
+// float *_idk = _map_namespace_get("a", "Float", &_test_map);
+// printf("[INFO] IDK value: %.1ff. \n", *_idk);
 
 #ifndef MOLANG_H
 #define MOLANG_H
