@@ -15,14 +15,13 @@
 #include <core.h>
 #include <data.h>
 
-#define TITLE "MoL  ̶g̶a̶m̶e̶(physics) engine"
-#define WIDTH  800
-#define HEIGHT 600
-
+Project *_current_project;
 ENGINE_STATE _current_state;
 GLFWwindow *_window;
-int _height;
-int _width;
+
+int         _WIDTH  = 800;
+int         _HEIGHT = 600;
+const char *_TITLE  = "MoL  ̶g̶a̶m̶e̶(physics) engine";
 
 // TODO: make these variables non-global;
 Texture2D _texture;
@@ -37,16 +36,29 @@ void _opengl_error_callback() {
     }
 }
 
+int Application(_set_current_project)(Project *_new_project) {
+    _current_project = _new_project;
+    if (_current_project == NULL) {
+	return -1;
+    }
+    
+    return 0;
+}
+
+Project *Application(_get_current_project)() {
+    return _current_project;
+}
+
 void Application(_set_current_engine_state)(ENGINE_STATE _new_state) {
     _current_state = _new_state;
     return;
 }
 void Application(_set_window_height)(int _new_height) {
-    _height = _new_height;
+    _HEIGHT = _new_height;
     return;
 }
 void Application(_set_window_width)(int _new_width) {
-    _width = _new_width;
+    _WIDTH = _new_width;
     return;
 }
 
@@ -57,10 +69,10 @@ GLFWwindow* Application(_get_window)() {
     return _window;
 }
 int Application(_get_window_height)() {
-    return _height;
+    return _HEIGHT;
 }
 int Application(_get_window_width)() {
-    return _width;
+    return _WIDTH;
 }
 
 static void _window_resized_callback(GLFWwindow *_window, int _w, int _h) {
@@ -78,7 +90,7 @@ void Application(_init)() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    _window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
+    _window = glfwCreateWindow(_WIDTH, _HEIGHT, _TITLE, NULL, NULL);
     
     if (_window == NULL) {
 	printf("[FAILED] Application window could not be created. \n");
@@ -99,7 +111,7 @@ void Application(_init)() {
     
     mat4 _projection;
     glm_mat4_identity(_projection);
-    glm_ortho(0.0f, WIDTH, HEIGHT, 0.0f, -1.0f, 1.0f, _projection);
+    glm_ortho(0.0f, _WIDTH, _HEIGHT, 0.0f, -1.0f, 1.0f, _projection);
     /* glm_perspective(0.0f, WIDTH / HEIGHT, 0.1f, 100.0f, _projection); */
     
     Molson(_set_matrix4)("_projection", &_projection, true, &_shader);

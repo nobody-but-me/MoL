@@ -5,7 +5,17 @@
 #include <glad.h>
 #include <GLFW/glfw3.h>
 
+#include "./cJSON.h"
+
 #define Application(x) app##x
+
+typedef struct _project {
+    const char *_project_version;
+    const char *_project_path;
+    const char *_project_name;
+    
+    cJSON *_json;
+} Project;
 
 typedef enum _engine_state {
     _SETTINGS,
@@ -14,6 +24,9 @@ typedef enum _engine_state {
 } ENGINE_STATE;
 
 void _opengl_error_callback();
+
+int Application(_set_current_project)(Project *_new_project);
+Project *Application(_get_current_project)();
 
 void Application(_set_current_engine_state)(ENGINE_STATE _new_state);
 void Application(_set_window_height)(int _new_height);
