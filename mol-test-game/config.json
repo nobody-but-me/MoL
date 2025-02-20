@@ -1,0 +1,24 @@
+{
+    
+    "_project_version": "0.0.0.1",
+    "_project_name": "Test Game",
+    "_current_scene": "Scene1",
+    "_scenes": {
+	"Scene1": {
+	    "_background_color": {
+		"r": 0.024, 
+		"g": 0.024, 
+		"b": 0.024, 
+		"a": 1.0
+	    }
+	},
+	"Scene2": {
+	    "_background_color": {
+		"r": 0.0, 
+		"g": 1.0, 
+		"b": 0.0, 
+		"a": 1.0
+	    }
+	}
+    }
+}

@@ -8,7 +8,7 @@
 
 #include <cJSON.h>
 
-#define TEST_PROJECT_PATH "../mol-test-game/"
+#define TEST_PROJECT_PATH "./mol-test-game/"
 
 
 void _error_callback(int _err_num, const char *_err_description) {
@@ -32,7 +32,7 @@ static int _check_json(cJSON *_json) {
 int main(int argc, char **argv) {
     glfwSetErrorCallback(_error_callback);
     
-    const char *_config_file = Molson(_file_to_string)("../mol-test-game/config.json");
+    const char *_config_file = Molson(_file_to_string)("./mol-test-game/config.json");
     if (_config_file == NULL) {
 	fprintf(stderr, "[INFO] Config file could not be read or found. \n");
 	return -1;
@@ -65,7 +65,22 @@ int main(int argc, char **argv) {
     Application(_ready)();
     while (!glfwWindowShouldClose(Application(_get_window)())) {
 	
-	glClearColor(0.024f, 0.024f, 0.024f, 1.0f);
+	cJSON *_current_scene = cJSON_GetObjectItemCaseSensitive(_config_json, "_current_scene");
+	if (cJSON_IsString(_current_scene) && _current_scene->valuestring != NULL) {
+	    cJSON *_scenes        = cJSON_GetObjectItemCaseSensitive(_config_json, "_scenes");
+	    cJSON *_scene = cJSON_GetObjectItemCaseSensitive(_scenes, _current_scene->valuestring);
+	    cJSON *_background_color = cJSON_GetObjectItemCaseSensitive(_scene, "_background_color");
+	    
+	    cJSON *_r = cJSON_GetObjectItemCaseSensitive(_background_color, "r");
+	    cJSON *_g = cJSON_GetObjectItemCaseSensitive(_background_color, "g");
+	    cJSON *_b = cJSON_GetObjectItemCaseSensitive(_background_color, "b");
+	    cJSON *_a = cJSON_GetObjectItemCaseSensitive(_background_color, "a");
+	    
+	    glClearColor(_r->valuedouble, _g->valuedouble, _b->valuedouble, _a->valuedouble);
+	    
+	} else {
+	    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	Application(_loop)();
