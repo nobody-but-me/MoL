@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <resource_manager.h>
 #include <object.h>
 #include <core.h>
 #include <data.h>
@@ -53,17 +54,17 @@ int main(int argc, char **argv) {
 	fprintf(stderr, "[INFO] Config file :: project version was not defined or found. \n");
 	return -1;
     }
-    Project _game_project = {
+    PROJECT _game_project = {
 	._project_version = _project_version->valuestring,
 	._project_path = TEST_PROJECT_PATH,
 	._project_name = _project_name->valuestring,
 	._json = _config_json
     };
-    Application(_set_current_project)(&_game_project);
+    ResourceManager(_set_current_project)(&_game_project);
     
-    Application(_init)();
-    Application(_ready)();
-    while (!glfwWindowShouldClose(Application(_get_window)())) {
+    Core(_init)();
+    Core(_ready)();
+    while (!glfwWindowShouldClose(Core(_get_window)())) {
 	
 	cJSON *_current_scene = cJSON_GetObjectItemCaseSensitive(_config_json, "_current_scene");
 	if (cJSON_IsString(_current_scene) && _current_scene->valuestring != NULL) {
@@ -83,13 +84,13 @@ int main(int argc, char **argv) {
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Application(_loop)();
+	Core(_loop)();
 	
-	glfwSwapBuffers(Application(_get_window)());
+	glfwSwapBuffers(Core(_get_window)());
 	glfwPollEvents();
     }
     cJSON_Delete(_config_json);
-    Application(_destroy)();
+    Core(_destroy)();
     return 0;
 }
 

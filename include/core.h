@@ -7,15 +7,7 @@
 
 #include "./cJSON.h"
 
-#define Application(x) app##x
-
-typedef struct _project {
-    const char *_project_version;
-    const char *_project_path;
-    const char *_project_name;
-    
-    cJSON *_json;
-} Project;
+#define Core(x) app##x
 
 typedef enum _engine_state {
     _SETTINGS,
@@ -25,23 +17,20 @@ typedef enum _engine_state {
 
 void _opengl_error_callback();
 
-int Application(_set_current_project)(Project *_new_project);
-Project *Application(_get_current_project)();
+void Core(_set_current_engine_state)(ENGINE_STATE _new_state);
+void Core(_set_window_height)(int _new_height);
+void Core(_set_window_width)(int _new_width);
 
-void Application(_set_current_engine_state)(ENGINE_STATE _new_state);
-void Application(_set_window_height)(int _new_height);
-void Application(_set_window_width)(int _new_width);
+ENGINE_STATE Core(_get_current_engine_state)();
+int          Core(_get_window_height)();
+int          Core(_get_window_width)();
+GLFWwindow*  Core(_get_window)();
 
-ENGINE_STATE Application(_get_current_engine_state)();
-GLFWwindow* Application(_get_window)();
-int Application(_get_window_height)();
-int Application(_get_window_width)();
+void Core(_destroy)();
+void Core(_init)();
 
-void Application(_destroy)();
-void Application(_init)();
-
-void Application(_process_input)();
-int Application(_ready)();
-int Application(_loop)();
+void Core(_process_input)();
+int  Core(_ready)();
+int  Core(_loop)();
 
 #endif//CORE_H

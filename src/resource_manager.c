@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 
+#include <cJSON.h>
 #include <glad.h>
 
 
@@ -64,9 +65,16 @@ void ResourceManager(_load_texture2d)(const char *_file, bool _alpha, Texture2D 
     return;
 }
 
-
-void ResourceManager(_init)() {
-    return;
+PROJECT *_current_project;
+int ResourceManager(_set_current_project)(PROJECT *_new_project) {
+    _current_project = _new_project;
+    if (_current_project == NULL) {
+	return -1;
+    }
+    return 0;
+}
+PROJECT *ResourceManager(_get_current_project)() {
+    return _current_project;
 }
 
 void ResourceManager(_add_new_scene)(const char *_name) {
@@ -78,4 +86,7 @@ void ResourceManager(_add_new_sprite)(Sprite *_sprite) {
     return;
 }
 
+void ResourceManager(_init)() {
+    return;
+}
 

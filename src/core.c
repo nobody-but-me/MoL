@@ -15,7 +15,6 @@
 #include <core.h>
 #include <data.h>
 
-Project *_current_project;
 ENGINE_STATE _current_state;
 GLFWwindow *_window;
 
@@ -36,42 +35,29 @@ void _opengl_error_callback() {
     }
 }
 
-int Application(_set_current_project)(Project *_new_project) {
-    _current_project = _new_project;
-    if (_current_project == NULL) {
-	return -1;
-    }
-    
-    return 0;
-}
-
-Project *Application(_get_current_project)() {
-    return _current_project;
-}
-
-void Application(_set_current_engine_state)(ENGINE_STATE _new_state) {
+void Core(_set_current_engine_state)(ENGINE_STATE _new_state) {
     _current_state = _new_state;
     return;
 }
-void Application(_set_window_height)(int _new_height) {
+void Core(_set_window_height)(int _new_height) {
     _HEIGHT = _new_height;
     return;
 }
-void Application(_set_window_width)(int _new_width) {
+void Core(_set_window_width)(int _new_width) {
     _WIDTH = _new_width;
     return;
 }
 
-ENGINE_STATE Application(_get_current_engine_state)() {
+ENGINE_STATE Core(_get_current_engine_state)() {
     return _current_state;
 }
-GLFWwindow* Application(_get_window)() {
+GLFWwindow* Core(_get_window)() {
     return _window;
 }
-int Application(_get_window_height)() {
+int Core(_get_window_height)() {
     return _HEIGHT;
 }
-int Application(_get_window_width)() {
+int Core(_get_window_width)() {
     return _WIDTH;
 }
 
@@ -80,7 +66,7 @@ static void _window_resized_callback(GLFWwindow *_window, int _w, int _h) {
     glViewport(0, 0, _w, _h);
     return;
 }
-void Application(_init)() {
+void Core(_init)() {
     if (!glfwInit()) {
 	printf("[FAILED] GLFW library could not be loaded. \n");
 	return;
@@ -121,12 +107,12 @@ void Application(_init)() {
     ResourceManager(_init_texture2d)(&_texture);
     ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);
     
-    Application(_set_current_engine_state)(_EDITOR);
+    Core(_set_current_engine_state)(_EDITOR);
     printf("[INFO] Application initialized. \n");
     return;
 }
 
-void Application(_destroy)() {
+void Core(_destroy)() {
     glfwDestroyWindow(_window);
     Molson(_destroy)(&_shader);
     glfwTerminate();
@@ -134,12 +120,12 @@ void Application(_destroy)() {
     return;
 }
 
-int Application(_ready)() {
+int Core(_ready)() {
     printf("[INFO] Hello, MoL! \n");
     return 0;
 }
 
-int Application(_loop)() {
+int Core(_loop)() {
     /* void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader); */
     Object(_render_sprite)(&_texture, (vec2){0.0f, 125.0f}, (vec2){1000.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_sprite, &_shader);
     return 0;
