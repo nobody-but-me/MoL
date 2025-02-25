@@ -14,7 +14,7 @@
 #include <data.h>
 
 
-void Object(_render_triangle)(Triangle *_triangle, Shader *_shader) {
+void Object(_render_triangle)(TRIANGLE *_triangle, Shader *_shader) {
   glm_mat4_identity(_triangle->_object._transform);
   glm_translate(_triangle->_object._transform, (vec3){1.0f, 1.0f, 1.0f});
   glm_rotate(_triangle->_object._transform, (float)glfwGetTime(), (vec3){ 1.0f, 1.0f, 0.0f });
@@ -29,13 +29,19 @@ void Object(_render_triangle)(Triangle *_triangle, Shader *_shader) {
 }
 
 void Object(_kill)(Object *_self) {
-  glDeleteVertexArrays(1, &_self->_vao);
-  glDeleteBuffers(1, &_self->_vbo);
-  glDeleteBuffers(1, &_self->_ebo);
+    // glDeleteVertexArrays(1, &_self->_vao);
+    // glDeleteBuffers(1, &_self->_vbo);
+    // glDeleteBuffers(1, &_self->_ebo);
+    
+    glDeleteVertexArrays(1, &_self->_vao);
+    glDeleteBuffers(1, &_self->_vbo);
+    glDeleteBuffers(1, &_self->_ebo);
+    
+    printf("[INFO] Object had been killed successfully. \n");
 }
 
-Triangle Object(_new_triangle)() {
-  Triangle _triangle;
+TRIANGLE Object(_new_triangle)() {
+  TRIANGLE _triangle;
   _triangle._name = "triangle name just to initialize this shit";
 
   float _vertices[] = {
@@ -68,7 +74,7 @@ Triangle Object(_new_triangle)() {
 }
 
 
-void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader) {
+void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, SPRITE *_sprite, Shader *_shader) {
   Molson(_use)(_shader);
 
   mat4 _transform;
@@ -94,8 +100,8 @@ void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, fl
   return;
 }
 
-Sprite Object(_new_sprite)() {
-  Sprite _sprite;
+SPRITE Object(_new_sprite)() {
+  SPRITE _sprite;
   _sprite._name = "a name to initialize this shit";
   
   float _vertices[] = {
@@ -114,7 +120,7 @@ Sprite Object(_new_sprite)() {
   
   glBindBuffer(GL_ARRAY_BUFFER, _sprite._object._vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices, GL_STATIC_DRAW);
-
+  
   glBindVertexArray(_sprite._object._vao);
   glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
   glEnableVertexAttribArray(0);

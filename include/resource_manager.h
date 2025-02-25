@@ -27,9 +27,12 @@ void ResourceManager(_bind_texture2d)(Texture2D *_texture);
 int      ResourceManager(_set_current_project)(PROJECT *_new_project);
 PROJECT *ResourceManager(_get_current_project)();
 
-void ResourceManager(_add_new_scene)(const char *_name);
-void ResourceManager(_add_new_sprite)(Sprite *_sprite);
 void ResourceManager(_init)();
+
+void ResourceManager(_change_current_scene)(const char *_new_current_scene);
+void ResourceManager(_add_new_scene)(const char *_name);
+
+SPRITE ResourceManager(_add_new_sprite)(SPRITE *_sprite);
 
 #endif//RESOURCE_MANAGER_H
 

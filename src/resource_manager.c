@@ -77,16 +77,33 @@ PROJECT *ResourceManager(_get_current_project)() {
     return _current_project;
 }
 
+void ResourceManager(_init)(cJSON *_configuration_json) {
+    return;
+}
+
+void ResourceManager(_change_current_scene)(const char *_new_current_scene) {
+    cJSON *_scene = cJSON_CreateString(_new_current_scene);
+    if (_scene == NULL) {
+	fprintf(stderr, "[FAILED] ResourceManager(_change_current_scene) :: Could not create new scene. \n");
+	cJSON_Delete(_current_project->_json);
+	return;
+    }
+    cJSON_AddItemToObject(_current_project->_json, "_current_scene", _scene);
+    char *_string = NULL;
+    _string = cJSON_Print(_current_project->_json);
+    if (_string == NULL) {
+	fprintf(stderr, "[FAILED] ResourceManager(_change_current_scene) :: Could not create JSON string. \n");
+	cJSON_Delete(_current_project->_json);
+	return;
+    }
+    // printf("[INFO] %s. \n", _string);
+}
 void ResourceManager(_add_new_scene)(const char *_name) {
     return;
 }
 
-void ResourceManager(_add_new_sprite)(Sprite *_sprite) {
-    
-    return;
-}
+// SPRITE ResourceManager(_create_sprite)(SPRITE *_sprite) {
+//     return;
+// }
 
-void ResourceManager(_init)() {
-    return;
-}
 

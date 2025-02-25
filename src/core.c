@@ -24,7 +24,7 @@ const char *_TITLE  = "MoL  ̶g̶a̶m̶e̶(physics) engine";
 
 // TODO: make these variables non-global;
 Texture2D _texture;
-Sprite _sprite;
+SPRITE _sprite;
 Shader _shader;
 
 void _opengl_error_callback() {
@@ -103,9 +103,10 @@ void Core(_init)() {
     Molson(_set_matrix4)("_projection", &_projection, true, &_shader);
     Molson(_set_int)("_object_image", 0, true, &_shader);
 
-    _sprite = Object(_new_sprite)();
-    ResourceManager(_init_texture2d)(&_texture);
-    ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);
+    // _sprite = Object(_new_sprite)();
+    // ResourceManager(_init_texture2d)(&_texture);
+    // ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);
+    
     
     Core(_set_current_engine_state)(_EDITOR);
     printf("[INFO] Application initialized. \n");
@@ -113,6 +114,8 @@ void Core(_init)() {
 }
 
 void Core(_destroy)() {
+    Object(_kill)(&_sprite._object);
+    
     glfwDestroyWindow(_window);
     Molson(_destroy)(&_shader);
     glfwTerminate();
@@ -127,6 +130,7 @@ int Core(_ready)() {
 
 int Core(_loop)() {
     /* void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader); */
-    Object(_render_sprite)(&_texture, (vec2){0.0f, 125.0f}, (vec2){1000.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_sprite, &_shader);
+    
+    // Object(_render_sprite)(&_texture, (vec2){0.0f, 125.0f}, (vec2){1000.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_sprite, &_shader);
     return 0;
 }

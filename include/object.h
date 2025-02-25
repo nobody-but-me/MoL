@@ -16,18 +16,18 @@
 typedef struct {
     const char *_name;
     Object _object;
-} Triangle;
+} TRIANGLE;
 
 typedef struct {
     const char *_name;
     Object _object;
-} Sprite;
+} SPRITE;
 
-void Object(_render_triangle)(Triangle *_triangle, Shader *_shader);
-Triangle Object(_new_triangle)();
+void Object(_render_triangle)(TRIANGLE *_triangle, Shader *_shader);
+TRIANGLE Object(_new_triangle)();
 
-void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader);
-Sprite Object(_new_sprite)();
+void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, SPRITE *_sprite, Shader *_shader);
+SPRITE Object(_new_sprite)();
 
 void Object(_kill)(Object *_self);
 

@@ -47,11 +47,11 @@ int main(int argc, char **argv) {
     cJSON *_project_name = cJSON_GetObjectItemCaseSensitive(_config_json, "_project_name");
     
     if (cJSON_IsString(_project_name) == false && (_project_name->valuestring == NULL)) {
-	fprintf(stderr, "[INFO] Config file :: project name was not defined or found. \n");
+	fprintf(stderr, "[INFO] Configuration file :: project name was not defined or found. \n");
 	return -1;
     }
     if (cJSON_IsString(_project_version) == false && (_project_version->valuestring == NULL)) {
-	fprintf(stderr, "[INFO] Config file :: project version was not defined or found. \n");
+	fprintf(stderr, "[INFO] Configuration file :: project version was not defined or found. \n");
 	return -1;
     }
     PROJECT _game_project = {
@@ -64,6 +64,9 @@ int main(int argc, char **argv) {
     
     Core(_init)();
     Core(_ready)();
+    
+    ResourceManager(_change_current_scene)("Scene1");
+    
     while (!glfwWindowShouldClose(Core(_get_window)())) {
 	
 	cJSON *_current_scene = cJSON_GetObjectItemCaseSensitive(_config_json, "_current_scene");
