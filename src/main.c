@@ -33,7 +33,7 @@ static int _check_json(cJSON *_json) {
 int main(int argc, char **argv) {
     glfwSetErrorCallback(_error_callback);
     
-    const char *_config_file = Molson(_file_to_string)("./mol-test-game/config.json");
+    const char *_config_file = Molson(_file_to_string)(TEST_PROJECT_PATH"config.json");
     if (_config_file == NULL) {
 	fprintf(stderr, "[INFO] Config file could not be read or found. \n");
 	return -1;
@@ -60,9 +60,9 @@ int main(int argc, char **argv) {
 	._project_name = _project_name->valuestring,
 	._json = _config_json
     };
-    ResourceManager(_set_current_project)(&_game_project);
     
-    Core(_init)();
+    ResourceManager(_set_current_project)(&_game_project);
+    Core(_init)(&_game_project);
     Core(_ready)();
     
     ResourceManager(_change_current_scene)("Scene1");
@@ -71,9 +71,9 @@ int main(int argc, char **argv) {
 	
 	cJSON *_current_scene = cJSON_GetObjectItemCaseSensitive(_config_json, "_current_scene");
 	if (cJSON_IsString(_current_scene) && _current_scene->valuestring != NULL) {
-	    cJSON *_scenes        = cJSON_GetObjectItemCaseSensitive(_config_json, "_scenes");
-	    cJSON *_scene = cJSON_GetObjectItemCaseSensitive(_scenes, _current_scene->valuestring);
-	    cJSON *_background_color = cJSON_GetObjectItemCaseSensitive(_scene, "_background_color");
+	    cJSON *_scenes		= cJSON_GetObjectItemCaseSensitive(_config_json, "_scenes");
+	    cJSON *_scene		= cJSON_GetObjectItemCaseSensitive(_scenes, _current_scene->valuestring);
+	    cJSON *_background_color	= cJSON_GetObjectItemCaseSensitive(_scene, "_background_color");
 	    
 	    cJSON *_r = cJSON_GetObjectItemCaseSensitive(_background_color, "r");
 	    cJSON *_g = cJSON_GetObjectItemCaseSensitive(_background_color, "g");

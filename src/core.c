@@ -66,7 +66,7 @@ static void _window_resized_callback(GLFWwindow *_window, int _w, int _h) {
     glViewport(0, 0, _w, _h);
     return;
 }
-void Core(_init)() {
+void Core(_init)(PROJECT *_project) {
     if (!glfwInit()) {
 	printf("[FAILED] GLFW library could not be loaded. \n");
 	return;
@@ -102,11 +102,11 @@ void Core(_init)() {
     
     Molson(_set_matrix4)("_projection", &_projection, true, &_shader);
     Molson(_set_int)("_object_image", 0, true, &_shader);
-
+    
     // _sprite = Object(_new_sprite)();
     // ResourceManager(_init_texture2d)(&_texture);
-    // ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);
-    
+    // ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);1
+    ResourceManager(_init_object_tree)();
     
     Core(_set_current_engine_state)(_EDITOR);
     printf("[INFO] Application initialized. \n");
@@ -132,5 +132,6 @@ int Core(_loop)() {
     /* void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader); */
     
     // Object(_render_sprite)(&_texture, (vec2){0.0f, 125.0f}, (vec2){1000.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_sprite, &_shader);
+    ResourceManager(_render_objects)(&_shader);
     return 0;
 }

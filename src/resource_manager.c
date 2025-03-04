@@ -9,7 +9,49 @@
 
 #include <cJSON.h>
 #include <glad.h>
+#include <GLFW/glfw3.h>
 
+#include <cglm/call.h>
+
+#define MAP_IMPLEMENTATION
+#include <map.h>
+
+
+TREE _object_tree;
+
+TREE *ResourceManager(_get_current_object_tree)() {
+    return &_object_tree;
+}
+void ResourceManager(_init_object_tree)() {
+    // TODO: make this function get the objects inside the json configuration file
+    SPRITE _sprite = Object(_new_sprite)();
+    _object_tree._sprite_tree[0]  = _sprite;
+    _object_tree._texture_tree[0] = "./assets/miranda69.png";
+    
+    ResourceManager(_init_objects)();
+    return;
+}
+
+// TODO: this sucks.
+Texture2D _reusable_texture;
+void ResourceManager(_render_objects)(Shader *_shader) {
+    for (int i = 0; i < MAX_TREE_LENGTH; i++) {
+	if (_object_tree._sprite_tree[i]._object._initialized == true) {
+	    Object(_render_sprite)(&_reusable_texture, (vec2){0.0f, 125.0f}, (vec2){1000.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_object_tree._sprite_tree[i], _shader);
+	}
+    }
+}
+void ResourceManager(_init_objects)() {
+    for (int i = 0; i < MAX_TREE_LENGTH; i++) {
+	// initializing sprite objects
+	if (_object_tree._sprite_tree[i]._object._initialized == false) {
+	    _object_tree._sprite_tree[i] = Object(_new_sprite)();
+	    ResourceManager(_init_texture2d)(&_reusable_texture);
+	    ResourceManager(_load_texture2d)(_object_tree._texture_tree[i - 1], true, &_reusable_texture);
+	    continue;
+	}
+    }
+}
 
 void ResourceManager(_generate_texture2d)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture2D *_texture) {
     _texture->_height = _height;
@@ -102,7 +144,7 @@ void ResourceManager(_add_new_scene)(const char *_name) {
     return;
 }
 
-// SPRITE ResourceManager(_create_sprite)(SPRITE *_sprite) {
+// SPRITE ResourceManager(_add_sprite)(SPRITE *_sprite) {
 //     return;
 // }
 

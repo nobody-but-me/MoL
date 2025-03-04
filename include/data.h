@@ -16,6 +16,8 @@ typedef struct {
     
     unsigned int _texture;
     bool _texture_flip;
+    
+    bool _initialized;
 } Object;
 
 typedef struct {

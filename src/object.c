@@ -29,10 +29,6 @@ void Object(_render_triangle)(TRIANGLE *_triangle, Shader *_shader) {
 }
 
 void Object(_kill)(Object *_self) {
-    // glDeleteVertexArrays(1, &_self->_vao);
-    // glDeleteBuffers(1, &_self->_vbo);
-    // glDeleteBuffers(1, &_self->_ebo);
-    
     glDeleteVertexArrays(1, &_self->_vao);
     glDeleteBuffers(1, &_self->_vbo);
     glDeleteBuffers(1, &_self->_ebo);
@@ -70,6 +66,8 @@ TRIANGLE Object(_new_triangle)() {
   if (error != GL_NO_ERROR) {
     printf("[INFO] OpenGL Error");
   }
+  
+  _triangle._object._initialized = true;
   return _triangle;
 }
 
@@ -127,5 +125,7 @@ SPRITE Object(_new_sprite)() {
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
+  
+  _sprite._object._initialized = true;
   return _sprite;
 }

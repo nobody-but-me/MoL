@@ -22,7 +22,6 @@ typedef struct {
     const char *_name;
     Object _object;
 } SPRITE;
-
 void Object(_render_triangle)(TRIANGLE *_triangle, Shader *_shader);
 TRIANGLE Object(_new_triangle)();
 

@@ -27,7 +27,7 @@ int          Core(_get_window_width)();
 GLFWwindow*  Core(_get_window)();
 
 void Core(_destroy)();
-void Core(_init)();
+void Core(_init)(PROJECT *_project);
 
 void Core(_process_input)();
 int  Core(_ready)();

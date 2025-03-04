@@ -12,15 +12,24 @@
 		"a": 1.0
 	    },
 	    "_objects": {
-		0: {
+		"0": {
 		    "_name": "Miranda",
-		    "_position": {"x": 0.0, "y": 125.0},
-		    "_scale": {"width": 1000.0, "height": 350.0},
+		    "x": 0.0, 
+		    "y": 125.0,
+		    "_width":  1000.0, 
+		    "_height": 350.0,
 		    "_rotation": 45.0,
-		    "_color": { "r": 1.0, "g": 1.0, "b": 1.0 },
+		    "_color": [
+			1.0, 
+			2.0, 
+			1.0
+		    ],
 		    
 		    "_type": "SPRITE",
 		    "_texture": "./assets/miranda69.png"
+		},
+		"1": {
+		    "_name": "Teste"
 		}
 	    }
 	},
@@ -32,12 +41,18 @@
 		"a": 1.0
 	    },
 	    "_objects": {
-		0: {
+		"0": {
 		    "_name": "JamesLee",
-		    "_position": {"x": 0.0, "y": 125.0},
-		    "_scale": {"width": 250.0, "height": 250.0},
+		    "x": 0.0, 
+		    "y": 125.0,
+		    "_width": 250.0, 
+		    "_height": 250.0,
 		    "_rotation": 0.0,
-		    "_color": { "r": 0.0, "g": 1.0, "b": 0.0 },
+		    "_color": [
+			0.0, 
+			1.0, 
+			0.0
+		    ],
 		    
 		    "_type": "SPRITE",
 		    "_texture": "./assets/jameslee?.png"
