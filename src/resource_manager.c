@@ -28,6 +28,10 @@ void ResourceManager(_init_object_tree)() {
     _object_tree._sprite_tree[0]  = _sprite;
     _object_tree._texture_tree[0] = "./assets/miranda69.png";
     
+    // SPRITE _sprite2 = Object(_new_sprite)();
+    // _object_tree._sprite_tree[1]  = _sprite2;
+    // _object_tree._texture_tree[1] = "./assets/jameslee?.png";
+    
     ResourceManager(_init_objects)();
     return;
 }
@@ -37,7 +41,7 @@ Texture2D _reusable_texture;
 void ResourceManager(_render_objects)(Shader *_shader) {
     for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 	if (_object_tree._sprite_tree[i]._object._initialized == true) {
-	    Object(_render_sprite)(&_reusable_texture, (vec2){0.0f, 125.0f}, (vec2){1000.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_object_tree._sprite_tree[i], _shader);
+	    Object(_render_sprite)(&_reusable_texture, (vec2){5.0f * i, 5.0f * i}, (vec2){250.0f, 250.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_object_tree._sprite_tree[i], _shader);
 	}
     }
 }
