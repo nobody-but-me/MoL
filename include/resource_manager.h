@@ -20,7 +20,7 @@ typedef struct _project {
     cJSON *_json;
 } PROJECT;
 
-#define MAX_TREE_LENGTH 10
+#define MAX_TREE_LENGTH 500
 typedef struct {
     const char *_texture_tree[MAX_TREE_LENGTH];
     SPRITE       _sprite_tree[MAX_TREE_LENGTH];

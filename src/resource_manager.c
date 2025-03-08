@@ -48,11 +48,10 @@ void ResourceManager(_render_objects)(Shader *_shader) {
 void ResourceManager(_init_objects)() {
     for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 	// initializing sprite objects
-	if (_object_tree._sprite_tree[i]._object._initialized == false) {
+	if (_object_tree._sprite_tree[i]._object._initialized == true) {
 	    _object_tree._sprite_tree[i] = Object(_new_sprite)();
 	    ResourceManager(_init_texture2d)(&_reusable_texture);
-	    ResourceManager(_load_texture2d)(_object_tree._texture_tree[i - 1], true, &_reusable_texture);
-	    continue;
+	    ResourceManager(_load_texture2d)(_object_tree._texture_tree[i], true, &_reusable_texture);
 	}
     }
 }

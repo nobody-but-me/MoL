@@ -91,7 +91,6 @@ void Core(_init)(PROJECT *_project) {
     }
     glfwSetFramebufferSizeCallback(_window, _window_resized_callback);
     glEnable(GL_DEPTH_TEST);
-
     
     Molson(_init_shader)("./shaders/object.vert", "./shaders/object.frag", &_shader);
     
@@ -105,7 +104,7 @@ void Core(_init)(PROJECT *_project) {
     
     // _sprite = Object(_new_sprite)();
     // ResourceManager(_init_texture2d)(&_texture);
-    // ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);1
+    // ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);
     ResourceManager(_init_object_tree)();
     
     Core(_set_current_engine_state)(_EDITOR);
