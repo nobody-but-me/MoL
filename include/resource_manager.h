@@ -20,10 +20,9 @@ typedef struct _project {
     cJSON *_json;
 } PROJECT;
 
-#define MAX_TREE_LENGTH 500
+#define MAX_TREE_LENGTH 100
 typedef struct {
-    const char *_texture_tree[MAX_TREE_LENGTH];
-    SPRITE       _sprite_tree[MAX_TREE_LENGTH];
+    SPRITE _sprite_tree[MAX_TREE_LENGTH];
 } TREE;
 
 TREE *ResourceManager(_get_current_object_tree)();
@@ -32,10 +31,14 @@ void ResourceManager(_init_object_tree)();
 void ResourceManager(_render_objects)(Shader *_shader);
 void ResourceManager(_init_objects)();
 
-void ResourceManager(_generate_texture2d)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture2D *_texture);
-void ResourceManager(_load_texture2d)(const char *_file, bool _alpha, Texture2D *_texture);
-void ResourceManager(_init_texture2d)(Texture2D *_texture);
-void ResourceManager(_bind_texture2d)(Texture2D *_texture);
+// void ResourceManager(_generate_texture2d)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture2D *_texture);
+// void ResourceManager(_load_texture2d)(const char *_file, bool _alpha, Texture2D *_texture);
+// void ResourceManager(_init_texture2d)(Texture2D *_texture);
+// void ResourceManager(_bind_texture2d)(Texture2D *_texture);
+
+void ResourceManager(_generate_texture)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture *_texture);
+void ResourceManager(_init_texture)(Texture *_texture);
+void ResourceManager(_bind_texture)(Texture *_texture);
 
 int      ResourceManager(_set_current_project)(PROJECT *_new_project);
 PROJECT *ResourceManager(_get_current_project)();

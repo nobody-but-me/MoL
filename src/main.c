@@ -60,12 +60,10 @@ int main(int argc, char **argv) {
 	._project_name = _project_name->valuestring,
 	._json = _config_json
     };
-    
     ResourceManager(_set_current_project)(&_game_project);
+    
     Core(_init)(&_game_project);
     Core(_ready)();
-    
-    ResourceManager(_change_current_scene)("Scene1");
     
     while (!glfwWindowShouldClose(Core(_get_window)())) {
 	

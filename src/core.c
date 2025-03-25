@@ -23,8 +23,12 @@ int         _HEIGHT = 600;
 const char *_TITLE  = "MoL  ̶g̶a̶m̶e̶(physics) engine";
 
 // TODO: make these variables non-global;
-Texture2D _texture;
-SPRITE _sprite;
+
+Texture _jameslee;
+Texture _miranda;
+
+SPRITE _sprite2;
+SPRITE _sprite1;
 Shader _shader;
 
 void _opengl_error_callback() {
@@ -102,9 +106,12 @@ void Core(_init)(PROJECT *_project) {
     Molson(_set_matrix4)("_projection", &_projection, true, &_shader);
     Molson(_set_int)("_object_image", 0, true, &_shader);
     
-    // _sprite = Object(_new_sprite)();
-    // ResourceManager(_init_texture2d)(&_texture);
-    // ResourceManager(_load_texture2d)("./assets/miranda69.png", true, &_texture);
+    _jameslee = Molson(_load_texture)("./assets/awesomeface.png", true);
+    _miranda = Molson(_load_texture)("./assets/miranda69.png", true);
+    
+    _sprite1 = Object(_new_sprite)((vec2){(_WIDTH / 2) - (250 / 2), (_HEIGHT / 2) - (250 / 2)}, (vec2){250.0f, 250.0f}, 0.0, (vec3){1.0f, 1.0f, 1.0f});
+    _sprite2 = Object(_new_sprite)((vec2){100.0f, 100.0f}, (vec2){250.0f, 250.0f}, -45.0f, (vec3){1.0f, 1.0f, 1.0f});
+    
     ResourceManager(_init_object_tree)();
     
     Core(_set_current_engine_state)(_EDITOR);
@@ -113,7 +120,8 @@ void Core(_init)(PROJECT *_project) {
 }
 
 void Core(_destroy)() {
-    Object(_kill)(&_sprite._object);
+    Object(_kill)(&_sprite1._object);
+    Object(_kill)(&_sprite2._object);
     
     glfwDestroyWindow(_window);
     Molson(_destroy)(&_shader);
@@ -130,7 +138,8 @@ int Core(_ready)() {
 int Core(_loop)() {
     /* void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader); */
     
-    // Object(_render_sprite)(&_texture, (vec2){0.0f, 125.0f}, (vec2){1000.0f, 350.0f}, (float)glfwGetTime(), (vec3){1.0f, 1.0f, 1.0f}, &_sprite, &_shader);
-    ResourceManager(_render_objects)(&_shader);
+    _sprite1._object._rotation = (float)glfwGetTime() * 5;
+    Object(_render_sprite)(&_sprite1, &_jameslee, &_shader);
+    Object(_render_sprite)(&_sprite2, &_miranda, &_shader);
     return 0;
 }

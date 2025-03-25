@@ -5,6 +5,18 @@
 #include <stdbool.h>
 
 typedef struct {
+    unsigned int _internal_format;
+    unsigned int _image_format;
+    unsigned int _filter_min;
+    unsigned int _filter_max;
+    unsigned int _wrap_s;
+    unsigned int _wrap_t;
+    unsigned int _height;
+    unsigned int _width;
+    unsigned int _id;
+} Texture;
+
+typedef struct {
     unsigned int _vbo;
     unsigned int _vao;
     unsigned int _ebo;
@@ -14,10 +26,8 @@ typedef struct {
     vec3 _position;
     vec3 _scale;
     
-    unsigned int _texture;
-    bool _texture_flip;
+    vec3 _colour;
     
-    bool _initialized;
 } Object;
 
 typedef struct {
@@ -25,18 +35,5 @@ typedef struct {
     unsigned int _vertex_shader;
     unsigned int ID;
 } Shader;
-
-typedef struct {
-    unsigned int _internal_format;
-    unsigned int _image_format;
-    unsigned int _filter_min;
-    unsigned int _filter_max;
-    unsigned int _wrap_s;
-    unsigned int _wrap_t;
-    unsigned int _height;
-    unsigned int _width;
-    unsigned int ID;
-} Texture2D;
-
 
 #endif//DATA_H

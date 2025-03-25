@@ -21,12 +21,21 @@ typedef struct {
 typedef struct {
     const char *_name;
     Object _object;
+    
+    const char *_texture_path;
+    bool _texture_alpha;
+    Texture _texture;
+    // unsigned int _texture;
+    bool _texture_flip;
+    
+    int _initialized;
 } SPRITE;
+
 void Object(_render_triangle)(TRIANGLE *_triangle, Shader *_shader);
 TRIANGLE Object(_new_triangle)();
 
-void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, SPRITE *_sprite, Shader *_shader);
-SPRITE Object(_new_sprite)();
+void Object(_render_sprite)(SPRITE *_sprite, Texture *_texture, Shader *_shader);
+SPRITE Object(_new_sprite)(vec2 _initial_position, vec2 _initial_scale, float _initial_rotation, vec3 _initial_colour);
 
 void Object(_kill)(Object *_self);
 

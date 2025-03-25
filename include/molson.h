@@ -8,6 +8,7 @@
 #include "./data.h"
 
 
+Texture Molson(_load_texture)(const char *_file_path, bool _alpha);
 const char *Molson(_file_to_string)(const char *_file_path);
 
 // --------------------------------------------------
@@ -39,6 +40,8 @@ void Molson(_set_int)(const char *_name, int _value, bool _use_shader, Shader *_
 
 #include "./glad.h"
 #include "./data.h"
+
+#include "./resource_manager.h"
 
 
 const char *Molson(_file_to_string)(const char *_file_path) {
@@ -76,6 +79,24 @@ BLANK:
     fclose(_file);
     free(_buffer);
     return NULL;
+}
+
+Texture Molson(_load_texture)(const char *_file_path, bool _alpha) {
+    Texture _new_texture;
+    ResourceManager(_init_texture)(&_new_texture);
+    if (_alpha) {
+	_new_texture._internal_format = GL_RGBA;
+	_new_texture._image_format = GL_RGBA;
+    }
+    int _channels;
+    int _height, _width;
+    
+    unsigned char *_data = stbi_load(_file_path, &_width, &_height, &_channels, 0);
+    ResourceManager(_generate_texture)(_width, _height, _data, &_new_texture);
+    stbi_image_free(_data);
+    
+    printf("[INFO] Texture had been loaded successfully. \n");
+    return _new_texture;
 }
 
 // --------------------------------------------------
