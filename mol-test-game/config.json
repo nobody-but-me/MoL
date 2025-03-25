@@ -2,7 +2,7 @@
     
     "_project_version": "0.0.0.1",
     "_project_name": "Test Game",
-    "_current_scene": "Scene2",
+    "_current_scene": "Scene1",
     "_scenes": {
 	"Scene1": {
 	    "_background_color": {
@@ -21,7 +21,7 @@
 		    "_rotation": 45.0,
 		    
 		    "r": 1.0,
-		    "g": 2.0,
+		    "g": 1.0,
 		    "b": 1.0,
 		    
 		    "_type": "SPRITE",
@@ -40,18 +40,18 @@
 	    "_objects": {
 		"0": {
 		    "_name": "JamesLee",
-		    "x": 0.0, 
-		    "y": 125.0,
+		    "x": 10.0, 
+		    "y": 10.0,
 		    "_width": 250.0, 
 		    "_height": 250.0,
-		    "_rotation": 0.0,
+		    "_rotation": 45.0,
 		    
 		    "r": 0.0, 
 		    "g": 1.0, 
 		    "b": 0.0,
 		    
 		    "_type": "SPRITE",
-		    "_texture": "./assets/jameslee?.png",
+		    "_texture": "./assets/jameslee_.png",
 		    "_alpha": true
 		}
 	    }

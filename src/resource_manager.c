@@ -22,6 +22,25 @@
 PROJECT *_current_project;
 TREE _object_tree;
 
+
+TREE *ResourceManager(_get_current_object_tree)() {
+    return &_object_tree;
+}
+
+void ResourceManager(_render_object_tree)(Shader *_shader) {
+    for (int i = 0; i < MAX_TREE_LENGTH; i++) {
+	if (_object_tree._sprite_tree[i]._initialized == 1) {
+	    // _object_tree._texture_tree[i] = _new_texture;
+	    // _object_tree._sprite_tree[i] = _new_sprite;
+	    // printf("[INFO] Texture path: '%s'. \n", _object_tree._texture_tree[i]._path);
+	    Object(_render_sprite)(&_object_tree._sprite_tree[i], &_object_tree._texture_tree[i], _shader);
+	    // printf("[INFO] Sprite had been initialized succesfully. \n");
+	    break;
+	}
+	continue;
+    }
+}
+
 void ResourceManager(_init_object_tree)() {
     cJSON *_current_scene = cJSON_GetObjectItemCaseSensitive(_current_project->_json, "_current_scene");
     if (_current_scene == NULL) {printf("[FAILED] Current scene variable could not be found inside your game's configuration file. \n"); return;}
@@ -50,23 +69,25 @@ void ResourceManager(_init_object_tree)() {
 		cJSON *_g		= cJSON_GetObjectItemCaseSensitive(_object, "g");
 		cJSON *_b		= cJSON_GetObjectItemCaseSensitive(_object, "b");
 		
-		// cJSON *_texture_path	= cJSON_GetObjectItemCaseSensitive(_object, "_texture");
-		// cJSON *_texture_alpha	= cJSON_GetObjectItemCaseSensitive(_object, "_alpha");
+		cJSON *_texture_path	= cJSON_GetObjectItemCaseSensitive(_object, "_texture");
+		cJSON *_texture_alpha	= cJSON_GetObjectItemCaseSensitive(_object, "_alpha");
 		
-		// bool _alpha;
-		// if (cJSON_IsFalse(_texture_alpha) == true) {
-		//     _alpha = false;
-		// } else {
-		//     _alpha = true;
-		// }
+		bool _alpha;
+		if (cJSON_IsFalse(_texture_alpha) == true) {
+		    _alpha = false;
+		} else {
+		    _alpha = true;
+		}
 		
+		Texture _new_texture;
 		SPRITE _new_sprite;
-		Texture _texture;
+
+		_new_texture = Molson(_load_texture)(_texture_path->valuestring, _alpha);
 		_new_sprite = Object(_new_sprite)((vec2){_x->valuedouble, _y->valuedouble}, (vec2){_width->valuedouble, _height->valuedouble}, _rotation->valuedouble, (vec3){_r->valuedouble, _g->valuedouble, _b->valuedouble});
 		
-		size_t _tree_length = sizeof(_object_tree._sprite_tree) / sizeof(_object_tree._sprite_tree[0]);
-		for (int i = 0; i < _tree_length; i++) {
+		for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 		    if (_object_tree._sprite_tree[i]._initialized == 0) {
+			_object_tree._texture_tree[i] = _new_texture;
 			_object_tree._sprite_tree[i] = _new_sprite;
 			printf("[INFO] Sprite had been initialized succesfully. \n");
 			break;
@@ -77,9 +98,6 @@ void ResourceManager(_init_object_tree)() {
 	}
     }
     return;
-}
-TREE *ResourceManager(_get_current_object_tree)() {
-    return &_object_tree;
 }
 
 
@@ -115,63 +133,6 @@ void ResourceManager(_bind_texture)(Texture *_texture) {
     glBindTexture(GL_TEXTURE_2D, _texture->_id);
     return;
 }
-
-
-
-// void ResourceManager(_generate_texture2d)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture2D *_texture) {
-//     _texture->_height = _height;
-//     _texture->_width = _width;
-    
-//     // glBindTexture(GL_TEXTURE_2D, _texture->ID);
-//     glTexImage2D(GL_TEXTURE_2D, 0, _texture->_internal_format, _width, _height, 0, _texture->_image_format, GL_UNSIGNED_BYTE, _data);
-    
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _texture->_wrap_s);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _texture->_wrap_t);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _texture->_filter_min);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _texture->_filter_max);
-    
-//     glBindTexture(GL_TEXTURE_2D, 0);
-//     printf("[INFO] Texture generated. \n");
-//     return;
-// }
-
-// void ResourceManager(_init_texture2d)(Texture2D *_texture) {
-//     _texture->_internal_format	= GL_RGB;
-//     _texture->_filter_min	= GL_LINEAR;
-//     _texture->_filter_max	= GL_LINEAR;
-//     _texture->_image_format	= GL_RGB;
-//     _texture->_wrap_s		= GL_REPEAT;
-//     _texture->_wrap_t		= GL_REPEAT;
-//     _texture->_height		= 0;
-//     _texture->_width		= 0;
-    
-//     glGenTextures(1, _texture->ID);
-//     return;
-// }
-
-// void ResourceManager(_bind_texture2d)(Texture2D *_texture) {
-//     glBindTexture(GL_TEXTURE_2D, _texture->ID);
-//     return;
-// }
-
-// void ResourceManager(_load_texture2d)(const char *_file, bool _alpha, Texture2D *_texture) {
-//     ResourceManager(_init_texture2d)(_texture);
-    
-//     if (_alpha) {
-// 	_texture->_internal_format = GL_RGBA;
-// 	_texture->_image_format = GL_RGBA;
-//     }
-//     int _channels;
-//     int _height;
-//     int _width;
-
-//     unsigned char *_data = stbi_load(_file, &_width, &_height, &_channels, 0);
-//     ResourceManager(_generate_texture2d)(_width, _height, _data, _texture);
-//     stbi_image_free(_data);
-    
-//     printf("[INFO] Texture was loaded successfully. \n");
-//     return;
-// }
 
 int ResourceManager(_set_current_project)(PROJECT *_new_project) {
     _current_project = _new_project;

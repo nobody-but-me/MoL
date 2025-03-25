@@ -14,6 +14,8 @@ typedef struct {
     unsigned int _height;
     unsigned int _width;
     unsigned int _id;
+    
+    const char *_path;
 } Texture;
 
 typedef struct {

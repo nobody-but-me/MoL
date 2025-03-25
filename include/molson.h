@@ -95,6 +95,7 @@ Texture Molson(_load_texture)(const char *_file_path, bool _alpha) {
     ResourceManager(_generate_texture)(_width, _height, _data, &_new_texture);
     stbi_image_free(_data);
     
+    _new_texture._path = _file_path;
     printf("[INFO] Texture had been loaded successfully. \n");
     return _new_texture;
 }
