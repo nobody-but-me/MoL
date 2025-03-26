@@ -35,7 +35,7 @@ void Object(_render_triangle)(TRIANGLE *_triangle, Shader *_shader);
 TRIANGLE Object(_new_triangle)();
 
 void Object(_render_sprite)(SPRITE *_sprite, Texture *_texture, Shader *_shader);
-SPRITE Object(_new_sprite)(vec2 _initial_position, vec2 _initial_scale, float _initial_rotation, vec3 _initial_colour);
+SPRITE Object(_new_sprite)(const char *_name, vec2 _initial_position, vec2 _initial_scale, vec3 _initial_rotation, vec3 _initial_colour);
 
 void Object(_kill)(Object *_self);
 

@@ -27,6 +27,7 @@ typedef struct {
 } TREE;
 
 TREE *ResourceManager(_get_current_object_tree)();
+SPRITE *ResourceManager(_get_sprite_object)();
 void ResourceManager(_render_object_tree)();
 void ResourceManager(_init_object_tree)();
 

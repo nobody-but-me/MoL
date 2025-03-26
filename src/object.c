@@ -1,6 +1,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 
 #include <glad.h>
@@ -78,7 +79,9 @@ void Object(_render_sprite)(SPRITE *_sprite, Texture *_texture, Shader *_shader)
     glm_translate(_transform, (vec3){_sprite->_object._position[0], _sprite->_object._position[1], 0.0f});
     
     glm_translate(_transform, (vec3){0.5f * _sprite->_object._scale[0], 0.5f *_sprite->_object._scale[1], 0.0f});
-    glm_rotate(_transform, _sprite->_object._rotation, (vec3){0.0f, 0.0f, 1.0f});
+    glm_rotate(_transform, _sprite->_object._rotation[0], (vec3){1.0f, 0.0f, 0.0f});
+    glm_rotate(_transform, _sprite->_object._rotation[1], (vec3){0.0f, 1.0f, 0.0f});
+    glm_rotate(_transform, _sprite->_object._rotation[2], (vec3){0.0f, 0.0f, 1.0f});
     glm_translate(_transform, (vec3){-0.5f * _sprite->_object._scale[0], -0.5f *_sprite->_object._scale[1], 0.0f});
     
     glm_scale(_transform, (vec3){_sprite->_object._scale[0], _sprite->_object._scale[1], 1.0f});
@@ -96,9 +99,9 @@ void Object(_render_sprite)(SPRITE *_sprite, Texture *_texture, Shader *_shader)
     return;
 }
 
-SPRITE Object(_new_sprite)(vec2 _initial_position, vec2 _initial_scale, float _initial_rotation, vec3 _initial_colour) {
+SPRITE Object(_new_sprite)(const char *_name, vec2 _initial_position, vec2 _initial_scale, vec3 _initial_rotation, vec3 _initial_colour) {
     SPRITE _sprite;
-    _sprite._name = "a name to initialize this shit";
+    _sprite._name = _name;
     
     // _sprite._texture = *_texture;
     // _sprite._texture.ID = 0;
@@ -139,8 +142,11 @@ SPRITE Object(_new_sprite)(vec2 _initial_position, vec2 _initial_scale, float _i
     _sprite._object._scale[0]    = _initial_scale[0];
     _sprite._object._scale[1]    = _initial_scale[1];
     
-    _sprite._object._rotation    = _initial_rotation;
+    _sprite._object._rotation[0]    = _initial_rotation[0];
+    _sprite._object._rotation[1]    = _initial_rotation[1];
+    _sprite._object._rotation[2]    = _initial_rotation[2];
     
     _sprite._initialized = 1;
+    printf("[INFO] Sprite '%s' had been created. \n", _sprite._name);
     return _sprite;
 }

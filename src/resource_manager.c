@@ -27,15 +27,27 @@ TREE *ResourceManager(_get_current_object_tree)() {
     return &_object_tree;
 }
 
+SPRITE *ResourceManager(_get_sprite_object)(const char *_object_name) {
+    SPRITE *_output_sprite;
+    for (int i = 0; i < MAX_TREE_LENGTH; i++) {
+	if (_object_tree._sprite_tree[i]._initialized == 0) {
+	    break;
+	}
+	const char *_name = _object_tree._sprite_tree[i]._name;
+	if (_name == _object_name) {
+	    _output_sprite = &_object_tree._sprite_tree[i];
+	    break;
+	}
+    }
+    return _output_sprite;
+}
+
 void ResourceManager(_render_object_tree)(Shader *_shader) {
     for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 	if (_object_tree._sprite_tree[i]._initialized == 1) {
-	    // _object_tree._texture_tree[i] = _new_texture;
-	    // _object_tree._sprite_tree[i] = _new_sprite;
-	    // printf("[INFO] Texture path: '%s'. \n", _object_tree._texture_tree[i]._path);
+	    // _object_tree._sprite_tree[i]._object._rotation = (float)glfwGetTime();
 	    Object(_render_sprite)(&_object_tree._sprite_tree[i], &_object_tree._texture_tree[i], _shader);
 	    // printf("[INFO] Sprite had been initialized succesfully. \n");
-	    break;
 	}
 	continue;
     }
@@ -59,11 +71,15 @@ void ResourceManager(_init_object_tree)() {
 	if (cJSON_IsString(_type)) {
 	    if (strcmp(_type->valuestring, "SPRITE") == 0) {
 		// TODO: hard-coded: rewrite this later.
+		cJSON *_name		= cJSON_GetObjectItemCaseSensitive(_object, "_name");
 		cJSON *_x		= cJSON_GetObjectItemCaseSensitive(_object, "x");
 		cJSON *_y		= cJSON_GetObjectItemCaseSensitive(_object, "y");
 		cJSON *_height		= cJSON_GetObjectItemCaseSensitive(_object, "_height");
 		cJSON *_width		= cJSON_GetObjectItemCaseSensitive(_object, "_width");
-		cJSON *_rotation	= cJSON_GetObjectItemCaseSensitive(_object, "_rotation");
+		
+		cJSON *_rot_x		= cJSON_GetObjectItemCaseSensitive(_object, "_rot_x");
+		cJSON *_rot_y		= cJSON_GetObjectItemCaseSensitive(_object, "_rot_y");
+		cJSON *_rot_z		= cJSON_GetObjectItemCaseSensitive(_object, "_rot_z");
 
 		cJSON *_r		= cJSON_GetObjectItemCaseSensitive(_object, "r");
 		cJSON *_g		= cJSON_GetObjectItemCaseSensitive(_object, "g");
@@ -78,12 +94,11 @@ void ResourceManager(_init_object_tree)() {
 		} else {
 		    _alpha = true;
 		}
-		
 		Texture _new_texture;
 		SPRITE _new_sprite;
 
 		_new_texture = Molson(_load_texture)(_texture_path->valuestring, _alpha);
-		_new_sprite = Object(_new_sprite)((vec2){_x->valuedouble, _y->valuedouble}, (vec2){_width->valuedouble, _height->valuedouble}, _rotation->valuedouble, (vec3){_r->valuedouble, _g->valuedouble, _b->valuedouble});
+		_new_sprite = Object(_new_sprite)(_name->valuestring, (vec2){_x->valuedouble, _y->valuedouble}, (vec2){_width->valuedouble, _height->valuedouble}, (vec3){_rot_x->valuedouble, _rot_y->valuedouble, _rot_z->valuedouble}, (vec3){_r->valuedouble, _g->valuedouble, _b->valuedouble});
 		
 		for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 		    if (_object_tree._sprite_tree[i]._initialized == 0) {
@@ -99,7 +114,6 @@ void ResourceManager(_init_object_tree)() {
     }
     return;
 }
-
 
 void ResourceManager(_generate_texture)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture *_texture) {
     _texture->_height = _height;

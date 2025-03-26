@@ -6,9 +6,9 @@
     "_scenes": {
 	"Scene1": {
 	    "_background_color": {
-		"r": 0.024, 
-		"g": 0.024, 
-		"b": 0.024, 
+		"r": 1.0, 
+		"g": 1.0, 
+		"b": 1.0, 
 		"a": 1.0
 	    },
 	    "_objects": {
@@ -17,15 +17,37 @@
 		    "x": 0.0, 
 		    "y": 125.0,
 		    "_width":  1000.0, 
-		    "_height": 350.0,
-		    "_rotation": 45.0,
+		    "_height": 350.0, 
+		    
+		    "_rot_x": 0.0,
+		    "_rot_y": 0.0,
+		    "_rot_z": 45.0,
+		    
+		    "r": 1.0, 
+		    "g": 1.0, 
+		    "b": 1.0, 
+		    
+		    "_type": "SPRITE",
+		    "_texture": "./assets/miranda69.png",
+		    "_alpha": true
+		},
+		"1": {
+		    "_name": "AwesomeFace",
+		    "x": 10.0, 
+		    "y": 10.0,
+		    "_width":  200.0, 
+		    "_height": 200.0,
+		    
+		    "_rot_x": 0.0,
+		    "_rot_y": 0.0,
+		    "_rot_z": -45.0,
 		    
 		    "r": 1.0,
 		    "g": 1.0,
 		    "b": 1.0,
 		    
 		    "_type": "SPRITE",
-		    "_texture": "./assets/miranda69.png",
+		    "_texture": "./assets/awesomeface.png",
 		    "_alpha": true
 		}
 	    }

@@ -24,7 +24,7 @@ typedef struct {
     unsigned int _ebo;
     
     mat4  _transform;
-    float _rotation;
+    vec3 _rotation;
     vec3 _position;
     vec3 _scale;
     

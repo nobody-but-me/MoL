@@ -22,13 +22,6 @@ int         _WIDTH  = 800;
 int         _HEIGHT = 600;
 const char *_TITLE  = "MoL  ̶g̶a̶m̶e̶(physics) engine";
 
-// TODO: make these variables non-global;
-
-// Texture _jameslee;
-// Texture _miranda;
-
-// SPRITE _sprite2;
-// SPRITE _sprite1;
 Shader _shader;
 
 void _opengl_error_callback() {
@@ -98,12 +91,19 @@ void Core(_init)(PROJECT *_project) {
     
     Molson(_init_shader)("./shaders/object.vert", "./shaders/object.frag", &_shader);
     
+    
     mat4 _projection;
+    mat4 _view;
+    
     glm_mat4_identity(_projection);
-    glm_ortho(0.0f, _WIDTH, _HEIGHT, 0.0f, -1.0f, 1.0f, _projection);
-    /* glm_perspective(0.0f, WIDTH / HEIGHT, 0.1f, 100.0f, _projection); */
+    glm_mat4_identity(_view);
+    
+    glm_translate(_view, (vec3){0.0f, 0.0f, -0.5f});
+    glm_ortho(0.0f, _WIDTH, _HEIGHT, 0.0f, -150.0f, 150.0f, _projection);
+    // glm_perspective(45.0f, _WIDTH / _HEIGHT, 0.1f, 100.0f, _projection);
     
     Molson(_set_matrix4)("_projection", &_projection, true, &_shader);
+    Molson(_set_matrix4)("_view", &_view, true, &_shader);
     Molson(_set_int)("_object_image", 0, true, &_shader);
     
     // _jameslee = Molson(_load_texture)("./assets/awesomeface.png", true);
@@ -132,6 +132,11 @@ void Core(_destroy)() {
 
 int Core(_ready)() {
     printf("[INFO] Hello, MoL! \n");
+    
+    // SPRITE *_miranda;
+    // _miranda = ResourceManager(_get_sprite_object)("Miranda");
+    // printf("[INFO] Gatinha name: %s. \n", _miranda->_name);
+    
     return 0;
 }
 
