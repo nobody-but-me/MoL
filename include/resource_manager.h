@@ -30,7 +30,7 @@ typedef struct {
 } TREE;
 
 TREE *ResourceManager(_get_current_object_tree)();
-SPRITE *ResourceManager(_get_sprite_object)();
+SPRITE *ResourceManager(_get_sprite_object)(const char *_object_name);
 
 void ResourceManager(_destroy_object_tree)();
 void ResourceManager(_render_object_tree)(Shader *_shader);

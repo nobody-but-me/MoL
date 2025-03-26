@@ -15,6 +15,7 @@
 #define MOLSON_IMPLEMENTATION
 #include <core.h>
 #include <data.h>
+#include <keys.h>
 
 
 ENGINE_STATE _current_state;
@@ -35,6 +36,15 @@ void _opengl_error_callback() {
 	printf("[ERROR] OpenGL Error");
 	return;
     }
+}
+
+bool Core(_get_key_state)(unsigned int _key, unsigned int _key_state) {
+    int _state = glfwGetKey(_window, _key);
+    
+    if (_state == _key_state) {
+	return true;
+    }
+    return false;
 }
 
 bool Core(_is_window_running)() {
@@ -72,7 +82,10 @@ static void _window_resized_callback(GLFWwindow *_window, int _w, int _h) {
     glViewport(0, 0, _w, _h);
     return;
 }
+
+SPRITE *_jameslee;
 static void _key_callback(GLFWwindow *_window, int _key, int scancode, int _action, int _mods) {
+    
     if (_key == GLFW_KEY_ESCAPE && _action == GLFW_PRESS) {
 	_running = false;
 	return;
@@ -101,7 +114,7 @@ void Core(_init)(PROJECT *_project) {
 	printf("[FAILED] Glad header library could not be loaded. \n");
 	return;
     }
-
+    
     glfwSetFramebufferSizeCallback(_window, _window_resized_callback);
     glfwSetKeyCallback(_window, _key_callback);
     glEnable(GL_DEPTH_TEST);
@@ -125,6 +138,7 @@ void Core(_init)(PROJECT *_project) {
     Molson(_set_int)("_object_image", 0, true, &_shader);
     
     ResourceManager(_init_object_tree)();
+    _jameslee = ResourceManager(_get_sprite_object)("JamesLee");
     
     Core(_set_current_engine_state)(_EDITOR);
     printf("[INFO] Application initialized. \n");
@@ -143,7 +157,7 @@ void Core(_destroy)() {
 }
 
 int Core(_ready)() {
-    printf("[INFO] Hello, MoL! \n");
+    printf("\n[INFO] Hello, MoL! \n\n");
     return 0;
 }
 
@@ -153,6 +167,19 @@ int Core(_loop)() {
     // Object(_render_sprite)(&_sprite2, &_miranda, &_shader);
     if (glfwWindowShouldClose(_window)) {
 	_running = false;
+    }
+    
+    if (Core(_get_key_state)(GLFW_KEY_D, GLFW_PRESS)) {
+	_jameslee->_object._position[0] += 10;
+    }
+    if (Core(_get_key_state)(_MOL_KEY_A, GLFW_PRESS)) {
+	_jameslee->_object._position[0] -= 10;
+    }
+    if (Core(_get_key_state)(GLFW_KEY_W, GLFW_PRESS)) {
+	_jameslee->_object._position[1] -= 10;
+    }
+    if (Core(_get_key_state)(GLFW_KEY_S, GLFW_PRESS)) {
+	_jameslee->_object._position[1] += 10;
     }
     
     ResourceManager(_render_object_tree)(&_shader);

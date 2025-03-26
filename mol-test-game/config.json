@@ -2,7 +2,7 @@
     
     "_project_version": "0.0.0.1",
     "_project_name": "Test Game",
-    "_current_scene": "Scene1",
+    "_current_scene": "Scene2",
     "_scenes": {
 	"Scene1": {
 	    "_background_color": {
@@ -16,6 +16,7 @@
 		    "_name": "Miranda",
 		    "x": 0.0, 
 		    "y": 125.0,
+		    "z": 0.0,
 		    "_width":  1000.0, 
 		    "_height": 350.0, 
 		    
@@ -35,6 +36,7 @@
 		    "_name": "AwesomeFace",
 		    "x": 10.0, 
 		    "y": 10.0,
+		    "z": 0.0,
 		    "_width":  200.0, 
 		    "_height": 200.0,
 		    
@@ -64,6 +66,7 @@
 		    "_name": "JamesLee",
 		    "x": 10.0, 
 		    "y": 10.0,
+		    "z": 0.0,
 		    "_width": 250.0, 
 		    "_height": 250.0,
 
@@ -76,7 +79,7 @@
 		    "b": 1.0,
 		    
 		    "_type": "SPRITE",
-		    "_texture": "./assets/jameslee_.png",
+		    "_texture": "./assets/awesomeface.png",
 		    "_alpha": true
 		}
 	    }

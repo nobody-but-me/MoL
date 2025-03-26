@@ -31,11 +31,12 @@ SPRITE *ResourceManager(_get_sprite_object)(const char *_object_name) {
     SPRITE *_output_sprite;
     for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 	if (_object_tree._sprite_tree[i]._initialized == 0) {
-	    break;
+	    continue;
 	}
 	const char *_name = _object_tree._sprite_tree[i]._name;
-	if (_name == _object_name) {
+	if (strcmp(_name, _object_name) == 0) {
 	    _output_sprite = &_object_tree._sprite_tree[i];
+	    printf("[INFO] SPRITE '%s' had been found at the position (vec2){%.1f, %.1f}. \n", _object_name, _output_sprite->_object._position[0], _output_sprite->_object._position[1]);
 	    break;
 	}
     }

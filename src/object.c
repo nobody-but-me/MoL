@@ -76,7 +76,7 @@ void Object(_render_sprite)(SPRITE *_sprite, Texture *_texture, Shader *_shader)
     
     mat4 _transform;
     glm_mat4_identity(_transform);
-    glm_translate(_transform, (vec3){_sprite->_object._position[0], _sprite->_object._position[1], 0.0f});
+    glm_translate(_transform, (vec3){_sprite->_object._position[0], _sprite->_object._position[1], _sprite->_object._position[2]});
     
     glm_translate(_transform, (vec3){0.5f * _sprite->_object._scale[0], 0.5f *_sprite->_object._scale[1], 0.0f});
     glm_rotate(_transform, _sprite->_object._rotation[0], (vec3){1.0f, 0.0f, 0.0f});

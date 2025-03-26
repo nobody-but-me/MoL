@@ -4,6 +4,7 @@
 
 #include <stdbool.h>
 
+
 typedef struct {
     unsigned int _internal_format;
     unsigned int _image_format;

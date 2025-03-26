@@ -19,6 +19,8 @@ typedef enum _engine_state {
 
 void _opengl_error_callback();
 
+bool Core(_get_key_state)(unsigned int _key, unsigned int _key_state);
+
 bool Core(_is_window_running)();
 
 void Core(_set_current_engine_state)(ENGINE_STATE _new_state);

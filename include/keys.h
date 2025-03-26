@@ -1,0 +1,47 @@
+
+
+#ifndef KEYS_H
+#define KEYS_H
+
+#include <GLFW/glfw3.h>
+
+enum KEYS {
+    _MOL_KEY_ESCAPE = GLFW_KEY_ESCAPE,
+    
+    _MOL_KEY_SPACE = GLFW_KEY_SPACE,
+    _MOL_KEY_ENTER = GLFW_KEY_ENTER,
+    
+    _MOL_KEY_RIGHT = GLFW_KEY_RIGHT,
+    _MOL_KEY_LEFT = GLFW_KEY_LEFT,
+    _MOL_KEY_DOWN = GLFW_KEY_DOWN,
+    _MOL_KEY_UP = GLFW_KEY_UP,
+    
+    _MOL_KEY_A = GLFW_KEY_A,
+    _MOL_KEY_B = GLFW_KEY_B,
+    _MOL_KEY_C = GLFW_KEY_C,
+    _MOL_KEY_D = GLFW_KEY_D,
+    _MOL_KEY_E = GLFW_KEY_E,
+    _MOL_KEY_F = GLFW_KEY_F,
+    _MOL_KEY_G = GLFW_KEY_G,
+    _MOL_KEY_H = GLFW_KEY_H,
+    _MOL_KEY_I = GLFW_KEY_I,
+    _MOL_KEY_J = GLFW_KEY_J,
+    _MOL_KEY_K = GLFW_KEY_K,
+    _MOL_KEY_L = GLFW_KEY_L,
+    _MOL_KEY_M = GLFW_KEY_M,
+    _MOL_KEY_N = GLFW_KEY_N,
+    _MOL_KEY_O = GLFW_KEY_O,
+    _MOL_KEY_P = GLFW_KEY_P,
+    _MOL_KEY_Q = GLFW_KEY_Q,
+    _MOL_KEY_R = GLFW_KEY_R,
+    _MOL_KEY_S = GLFW_KEY_S,
+    _MOL_KEY_T = GLFW_KEY_T,
+    _MOL_KEY_U = GLFW_KEY_U,
+    _MOL_KEY_V = GLFW_KEY_V,
+    _MOL_KEY_W = GLFW_KEY_W,
+    _MOL_KEY_X = GLFW_KEY_X,
+    _MOL_KEY_Y = GLFW_KEY_Y,
+    _MOL_KEY_Z = GLFW_KEY_Z,
+};
+
+#endif//KEYS_H
