@@ -42,12 +42,20 @@ SPRITE *ResourceManager(_get_sprite_object)(const char *_object_name) {
     return _output_sprite;
 }
 
+void ResourceManager(_destroy_object_tree)() {
+    for (int i = 0; i < MAX_TREE_LENGTH; i++) {
+	if (_object_tree._sprite_tree[i]._initialized == 1) {
+	    Object(_kill)(&_object_tree._sprite_tree[i]._object);
+	}
+    }
+    return;
+}
+
 void ResourceManager(_render_object_tree)(Shader *_shader) {
     for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 	if (_object_tree._sprite_tree[i]._initialized == 1) {
 	    // _object_tree._sprite_tree[i]._object._rotation = (float)glfwGetTime();
 	    Object(_render_sprite)(&_object_tree._sprite_tree[i], &_object_tree._texture_tree[i], _shader);
-	    // printf("[INFO] Sprite had been initialized succesfully. \n");
 	}
 	continue;
     }
@@ -159,7 +167,24 @@ PROJECT *ResourceManager(_get_current_project)() {
     return _current_project;
 }
 
-void ResourceManager(_init)(cJSON *_configuration_json) {
+void ResourceManager(_init)(cJSON *_configuration_json, PROJECT *_game_project) {
+    cJSON *_project_version = cJSON_GetObjectItemCaseSensitive(_configuration_json, "_project_version");
+    cJSON *_project_name = cJSON_GetObjectItemCaseSensitive(_configuration_json, "_project_name");
+    
+    if (cJSON_IsString(_project_name) == false && (_project_name->valuestring == NULL)) {
+	fprintf(stderr, "[INFO] Configuration file :: project name had not been defined or found. \n");
+	return;
+    }
+    if (cJSON_IsString(_project_version) == false && (_project_version->valuestring == NULL)) {
+	fprintf(stderr, "[INFO] Configuration file :: project version had not been defined or found. \n");
+    }
+    
+    _game_project->_project_version = _project_version->valuestring;
+    _game_project->_project_path = TEST_PROJECT_PATH;
+    _game_project->_project_name = _project_name->valuestring;
+    _game_project->_json = _configuration_json;
+    
+    ResourceManager(_set_current_project)(_game_project);
     return;
 }
 
@@ -178,14 +203,8 @@ void ResourceManager(_change_current_scene)(const char *_new_current_scene) {
 	cJSON_Delete(_current_project->_json);
 	return;
     }
-    // printf("[INFO] %s. \n", _string);
 }
 void ResourceManager(_add_new_scene)(const char *_name) {
     return;
 }
-
-// SPRITE ResourceManager(_add_sprite)(SPRITE *_sprite) {
-//     return;
-// }
-
 

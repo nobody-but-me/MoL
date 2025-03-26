@@ -11,18 +11,23 @@
 #include <resource_manager.h>
 #include <object.h>
 #include <molson.h>
+#include <cJSON.h>
 #define MOLSON_IMPLEMENTATION
 #include <core.h>
 #include <data.h>
 
+
 ENGINE_STATE _current_state;
 GLFWwindow *_window;
 
+const char *_TITLE  = "MoL  ̶g̶a̶m̶e̶(physics) engine";
 int         _WIDTH  = 800;
 int         _HEIGHT = 600;
-const char *_TITLE  = "MoL  ̶g̶a̶m̶e̶(physics) engine";
 
 Shader _shader;
+
+// TODO: perhaps there is a better way to this this.
+bool _running = false;
 
 void _opengl_error_callback() {
     GLenum _error = glGetError();
@@ -30,6 +35,10 @@ void _opengl_error_callback() {
 	printf("[ERROR] OpenGL Error");
 	return;
     }
+}
+
+bool Core(_is_window_running)() {
+    return _running;
 }
 
 void Core(_set_current_engine_state)(ENGINE_STATE _new_state) {
@@ -63,6 +72,12 @@ static void _window_resized_callback(GLFWwindow *_window, int _w, int _h) {
     glViewport(0, 0, _w, _h);
     return;
 }
+static void _key_callback(GLFWwindow *_window, int _key, int scancode, int _action, int _mods) {
+    if (_key == GLFW_KEY_ESCAPE && _action == GLFW_PRESS) {
+	_running = false;
+	return;
+    }
+}
 void Core(_init)(PROJECT *_project) {
     if (!glfwInit()) {
 	printf("[FAILED] GLFW library could not be loaded. \n");
@@ -86,8 +101,11 @@ void Core(_init)(PROJECT *_project) {
 	printf("[FAILED] Glad header library could not be loaded. \n");
 	return;
     }
+
     glfwSetFramebufferSizeCallback(_window, _window_resized_callback);
+    glfwSetKeyCallback(_window, _key_callback);
     glEnable(GL_DEPTH_TEST);
+    _running = true;
     
     Molson(_init_shader)("./shaders/object.vert", "./shaders/object.frag", &_shader);
     
@@ -106,12 +124,6 @@ void Core(_init)(PROJECT *_project) {
     Molson(_set_matrix4)("_view", &_view, true, &_shader);
     Molson(_set_int)("_object_image", 0, true, &_shader);
     
-    // _jameslee = Molson(_load_texture)("./assets/awesomeface.png", true);
-    // _miranda = Molson(_load_texture)("./assets/miranda69.png", true);
-    
-    // _sprite1 = Object(_new_sprite)((vec2){(_WIDTH / 2) - (250 / 2), (_HEIGHT / 2) - (250 / 2)}, (vec2){250.0f, 250.0f}, 0.0, (vec3){1.0f, 1.0f, 1.0f});
-    // _sprite2 = Object(_new_sprite)((vec2){100.0f, 100.0f}, (vec2){250.0f, 250.0f}, -45.0f, (vec3){1.0f, 1.0f, 1.0f});
-    
     ResourceManager(_init_object_tree)();
     
     Core(_set_current_engine_state)(_EDITOR);
@@ -120,9 +132,9 @@ void Core(_init)(PROJECT *_project) {
 }
 
 void Core(_destroy)() {
-    // Object(_kill)(&_sprite1._object);
-    // Object(_kill)(&_sprite2._object);
+    _running = false;
     
+    ResourceManager(_destroy_object_tree)();
     glfwDestroyWindow(_window);
     Molson(_destroy)(&_shader);
     glfwTerminate();
@@ -132,20 +144,17 @@ void Core(_destroy)() {
 
 int Core(_ready)() {
     printf("[INFO] Hello, MoL! \n");
-    
-    // SPRITE *_miranda;
-    // _miranda = ResourceManager(_get_sprite_object)("Miranda");
-    // printf("[INFO] Gatinha name: %s. \n", _miranda->_name);
-    
     return 0;
 }
 
 int Core(_loop)() {
-    /* void Object(_render_sprite)(Texture2D *_texture, vec2 _position, vec2 _scale, float _rotation, vec3 _colour, Sprite *_sprite, Shader *_shader); */
-    
     // _sprite1._object._rotation = (float)glfwGetTime() * 5;
     // Object(_render_sprite)(&_sprite1, &_jameslee, &_shader);
     // Object(_render_sprite)(&_sprite2, &_miranda, &_shader);
+    if (glfwWindowShouldClose(_window)) {
+	_running = false;
+    }
+    
     ResourceManager(_render_object_tree)(&_shader);
     return 0;
 }

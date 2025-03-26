@@ -66,11 +66,14 @@
 		    "y": 10.0,
 		    "_width": 250.0, 
 		    "_height": 250.0,
-		    "_rotation": 45.0,
+
+		    "_rot_x": 0.0,
+		    "_rot_y": 0.0,
+		    "_rot_z": 0.0,
 		    
-		    "r": 0.0, 
+		    "r": 1.0, 
 		    "g": 1.0, 
-		    "b": 0.0,
+		    "b": 1.0,
 		    
 		    "_type": "SPRITE",
 		    "_texture": "./assets/jameslee_.png",

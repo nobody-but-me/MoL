@@ -12,6 +12,9 @@
 #include "./cJSON.h"
 #include "./map.h"
 
+#define TEST_PROJECT_PATH "./mol-test-game/"
+
+
 typedef struct _project {
     const char *_project_version;
     const char *_project_path;
@@ -28,11 +31,10 @@ typedef struct {
 
 TREE *ResourceManager(_get_current_object_tree)();
 SPRITE *ResourceManager(_get_sprite_object)();
-void ResourceManager(_render_object_tree)();
-void ResourceManager(_init_object_tree)();
 
-void ResourceManager(_render_objects)(Shader *_shader);
-void ResourceManager(_init_objects)();
+void ResourceManager(_destroy_object_tree)();
+void ResourceManager(_render_object_tree)(Shader *_shader);
+void ResourceManager(_init_object_tree)();
 
 void ResourceManager(_generate_texture)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture *_texture);
 void ResourceManager(_init_texture)(Texture *_texture);
@@ -41,7 +43,7 @@ void ResourceManager(_bind_texture)(Texture *_texture);
 int      ResourceManager(_set_current_project)(PROJECT *_new_project);
 PROJECT *ResourceManager(_get_current_project)();
 
-void ResourceManager(_init)();
+void ResourceManager(_init)(cJSON *_configuration_json, PROJECT *_game_project);
 
 void ResourceManager(_change_current_scene)(const char *_new_current_scene);
 void ResourceManager(_add_new_scene)(const char *_name);

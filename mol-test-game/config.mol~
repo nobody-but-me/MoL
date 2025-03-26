@@ -1,8 +1,0 @@
-["config"]: [
-	["_project_name"]: "Test Game";
-	["_scenes"]: [
-		     ["_scene1"]: [
-		     	 ["_background_color"]: ;
-		     ];
-	];
-];

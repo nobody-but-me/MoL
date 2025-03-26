@@ -2,6 +2,8 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include <stdbool.h>
+
 #include <glad.h>
 #include <GLFW/glfw3.h>
 
@@ -16,6 +18,8 @@ typedef enum _engine_state {
 } ENGINE_STATE;
 
 void _opengl_error_callback();
+
+bool Core(_is_window_running)();
 
 void Core(_set_current_engine_state)(ENGINE_STATE _new_state);
 void Core(_set_window_height)(int _new_height);

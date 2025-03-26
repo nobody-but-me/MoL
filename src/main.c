@@ -9,7 +9,7 @@
 
 #include <cJSON.h>
 
-#define TEST_PROJECT_PATH "./mol-test-game/"
+// #define TEST_PROJECT_PATH "./mol-test-game/"
 
 
 void _error_callback(int _err_num, const char *_err_description) {
@@ -42,31 +42,13 @@ int main(int argc, char **argv) {
     if (_check_json(_config_json) == -1) {
 	return -1;
     }
-    // printf("[INFO] _test_json: %s. \n", cJSON_Print(_config_json));
-    cJSON *_project_version = cJSON_GetObjectItemCaseSensitive(_config_json, "_project_version");
-    cJSON *_project_name = cJSON_GetObjectItemCaseSensitive(_config_json, "_project_name");
-    
-    if (cJSON_IsString(_project_name) == false && (_project_name->valuestring == NULL)) {
-	fprintf(stderr, "[INFO] Configuration file :: project name was not defined or found. \n");
-	return -1;
-    }
-    if (cJSON_IsString(_project_version) == false && (_project_version->valuestring == NULL)) {
-	fprintf(stderr, "[INFO] Configuration file :: project version was not defined or found. \n");
-	return -1;
-    }
-    PROJECT _game_project = {
-	._project_version = _project_version->valuestring,
-	._project_path = TEST_PROJECT_PATH,
-	._project_name = _project_name->valuestring,
-	._json = _config_json
-    };
-    ResourceManager(_set_current_project)(&_game_project);
+    PROJECT _game_project;
+    ResourceManager(_init)(_config_json, &_game_project);
     
     Core(_init)(&_game_project);
-    Core(_ready)();
     
-    while (!glfwWindowShouldClose(Core(_get_window)())) {
-	
+    Core(_ready)();
+    while(Core(_is_window_running)()) {
 	cJSON *_current_scene = cJSON_GetObjectItemCaseSensitive(_config_json, "_current_scene");
 	if (cJSON_IsString(_current_scene) && _current_scene->valuestring != NULL) {
 	    cJSON *_scenes		= cJSON_GetObjectItemCaseSensitive(_config_json, "_scenes");
