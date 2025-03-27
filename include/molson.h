@@ -15,7 +15,7 @@ const char *Molson(_file_to_string)(const char *_file_path);
 
 void Molson(_init_shader)(const char *_vertex_path, const char *_fragment_path, Shader *_shader);
 void Molson(_set_float)(const char *_name, float _value);
-void Molson(_set_bool)(const char *_name, bool _value);
+void Molson(_set_bool)(const char *_name, bool _value, Shader *_shader);
 void Molson(_destroy)(Shader *_shader);
 void Molson(_use)(Shader *_shader);
 
@@ -260,6 +260,10 @@ void Molson(_set_int)(const char *_name, int _value, bool _use_shader, Shader *_
     if (_use_shader) {
 	glUseProgram(_shader->ID);
     }
+    glUniform1i(glGetUniformLocation(_shader->ID, _name), _value);
+    return;
+}
+void Molson(_set_bool)(const char *_name, bool _value, Shader *_shader) {
     glUniform1i(glGetUniformLocation(_shader->ID, _name), _value);
     return;
 }

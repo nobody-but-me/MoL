@@ -83,6 +83,8 @@ static void _window_resized_callback(GLFWwindow *_window, int _w, int _h) {
     return;
 }
 
+// NOTE: just for tests purposes;
+SHAPE *_rectangle;
 SPRITE *_jameslee;
 static void _key_callback(GLFWwindow *_window, int _key, int scancode, int _action, int _mods) {
     
@@ -90,6 +92,7 @@ static void _key_callback(GLFWwindow *_window, int _key, int scancode, int _acti
 	_running = false;
 	return;
     }
+    
 }
 void Core(_init)(PROJECT *_project) {
     if (!glfwInit()) {
@@ -121,7 +124,7 @@ void Core(_init)(PROJECT *_project) {
     _running = true;
     
     Molson(_init_shader)("./shaders/object.vert", "./shaders/object.frag", &_shader);
-    
+    Molson(_init_shader)("./shaders/object.vert", "./shaders/object.frag", &_shader);
     
     mat4 _projection;
     mat4 _view;
@@ -138,6 +141,7 @@ void Core(_init)(PROJECT *_project) {
     Molson(_set_int)("_object_image", 0, true, &_shader);
     
     ResourceManager(_init_object_tree)();
+    _rectangle = ResourceManager(_get_shape_object)("Rectangle");
     _jameslee = ResourceManager(_get_sprite_object)("JamesLee");
     
     Core(_set_current_engine_state)(_EDITOR);
@@ -168,6 +172,9 @@ int Core(_loop)() {
     if (glfwWindowShouldClose(_window)) {
 	_running = false;
     }
+    
+    _rectangle->_object._rotation[0] = (float)glfwGetTime();
+    _rectangle->_object._rotation[1] = (float)glfwGetTime();
     
     if (Core(_get_key_state)(GLFW_KEY_D, GLFW_PRESS)) {
 	_jameslee->_object._position[0] += 10;

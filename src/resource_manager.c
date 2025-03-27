@@ -43,6 +43,22 @@ SPRITE *ResourceManager(_get_sprite_object)(const char *_object_name) {
     return _output_sprite;
 }
 
+SHAPE *ResourceManager(_get_shape_object)(const char *_object_name) {
+    SHAPE *_output_shape;
+    for (int i = 0; i < MAX_TREE_LENGTH; i++) {
+	if (_object_tree._shape_tree[i]._initialized == 0) {
+	    continue;
+	}
+	const char *_name = _object_tree._shape_tree[i]._name;
+	if (strcmp(_name, _object_name) == 0) {
+	    _output_shape = &_object_tree._shape_tree[i];
+	    printf("[INFO] SHAPE '%s' had been found at the position (vec2){%.1f, %.1f}. \n", _object_name, _output_shape->_object._position[0], _output_shape->_object._position[1]);
+	    break;
+	}
+    }
+    return _output_shape;
+}
+
 void ResourceManager(_destroy_object_tree)() {
     for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 	if (_object_tree._sprite_tree[i]._initialized == 1) {
@@ -58,6 +74,11 @@ void ResourceManager(_render_object_tree)(Shader *_shader) {
 	    // _object_tree._sprite_tree[i]._object._rotation = (float)glfwGetTime();
 	    Object(_render_sprite)(&_object_tree._sprite_tree[i], &_object_tree._texture_tree[i], _shader);
 	}
+	
+	if (_object_tree._shape_tree[i]._initialized == 1) {
+	    Object(_render_rectangle)(&_object_tree._shape_tree[i], _shader);
+	}
+	
 	continue;
     }
 }
@@ -78,22 +99,22 @@ void ResourceManager(_init_object_tree)() {
 	cJSON *_type = cJSON_GetObjectItemCaseSensitive(_object, "_type");
 	if (_type == NULL) return;
 	if (cJSON_IsString(_type)) {
+	    // TODO: hard-coded: rewrite this later.
+	    cJSON *_name	= cJSON_GetObjectItemCaseSensitive(_object, "_name");
+	    cJSON *_x		= cJSON_GetObjectItemCaseSensitive(_object, "x");
+	    cJSON *_y		= cJSON_GetObjectItemCaseSensitive(_object, "y");
+	    cJSON *_height	= cJSON_GetObjectItemCaseSensitive(_object, "_height");
+	    cJSON *_width	= cJSON_GetObjectItemCaseSensitive(_object, "_width");
+	    
+	    cJSON *_rot_x	= cJSON_GetObjectItemCaseSensitive(_object, "_rot_x");
+	    cJSON *_rot_y	= cJSON_GetObjectItemCaseSensitive(_object, "_rot_y");
+	    cJSON *_rot_z	= cJSON_GetObjectItemCaseSensitive(_object, "_rot_z");
+	    
+	    cJSON *_r		= cJSON_GetObjectItemCaseSensitive(_object, "r");
+	    cJSON *_g		= cJSON_GetObjectItemCaseSensitive(_object, "g");
+	    cJSON *_b		= cJSON_GetObjectItemCaseSensitive(_object, "b");
+	    
 	    if (strcmp(_type->valuestring, "SPRITE") == 0) {
-		// TODO: hard-coded: rewrite this later.
-		cJSON *_name		= cJSON_GetObjectItemCaseSensitive(_object, "_name");
-		cJSON *_x		= cJSON_GetObjectItemCaseSensitive(_object, "x");
-		cJSON *_y		= cJSON_GetObjectItemCaseSensitive(_object, "y");
-		cJSON *_height		= cJSON_GetObjectItemCaseSensitive(_object, "_height");
-		cJSON *_width		= cJSON_GetObjectItemCaseSensitive(_object, "_width");
-		
-		cJSON *_rot_x		= cJSON_GetObjectItemCaseSensitive(_object, "_rot_x");
-		cJSON *_rot_y		= cJSON_GetObjectItemCaseSensitive(_object, "_rot_y");
-		cJSON *_rot_z		= cJSON_GetObjectItemCaseSensitive(_object, "_rot_z");
-
-		cJSON *_r		= cJSON_GetObjectItemCaseSensitive(_object, "r");
-		cJSON *_g		= cJSON_GetObjectItemCaseSensitive(_object, "g");
-		cJSON *_b		= cJSON_GetObjectItemCaseSensitive(_object, "b");
-		
 		cJSON *_texture_path	= cJSON_GetObjectItemCaseSensitive(_object, "_texture");
 		cJSON *_texture_alpha	= cJSON_GetObjectItemCaseSensitive(_object, "_alpha");
 		
@@ -114,6 +135,18 @@ void ResourceManager(_init_object_tree)() {
 			_object_tree._texture_tree[i] = _new_texture;
 			_object_tree._sprite_tree[i] = _new_sprite;
 			printf("[INFO] Sprite had been initialized succesfully. \n");
+			break;
+		    }
+		    continue;
+		}
+	    }
+	    if (strcmp(_type->valuestring, "RECTANGLE") == 0) {
+		SHAPE _new_rect;
+		_new_rect = Object(_new_rectangle)(_name->valuestring, (vec2){_x->valuedouble, _y->valuedouble}, (vec2){_width->valuedouble, _height->valuedouble}, (vec3){_rot_x->valuedouble, _rot_y->valuedouble, _rot_z->valuedouble}, (vec3){_r->valuedouble, _g->valuedouble, _b->valuedouble});
+		for (int i = 0; i < MAX_TREE_LENGTH; i++) {
+		    if (_object_tree._shape_tree[i]._initialized == 0) {
+			_object_tree._shape_tree[i] = _new_rect;
+			printf("[INFO] Rectangle had been initialized successfully. \n");
 			break;
 		    }
 		    continue;

@@ -79,8 +79,26 @@
 		    "b": 1.0,
 		    
 		    "_type": "SPRITE",
-		    "_texture": "./assets/awesomeface.png",
+		    "_texture": "./assets/miranda69.png",
 		    "_alpha": true
+		},
+		"1": {
+		    "_name": "Rectangle",
+		    "x": 300.0, 
+		    "y": 100.0,
+		    "z": 0.0,
+		    "_width": 100.0, 
+		    "_height": 100.0,
+
+		    "_rot_x": 35.0,
+		    "_rot_y": 35.0,
+		    "_rot_z": 0.0,
+		    
+		    "r": 1.0, 
+		    "g": 1.0, 
+		    "b": 1.0,
+		    
+		    "_type": "RECTANGLE"
 		}
 	    }
 	}

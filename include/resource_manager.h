@@ -26,14 +26,16 @@ typedef struct _project {
 #define MAX_TREE_LENGTH 100
 typedef struct {
     Texture _texture_tree[MAX_TREE_LENGTH];
-    SPRITE  _sprite_tree[MAX_TREE_LENGTH];
+    SPRITE  _sprite_tree [MAX_TREE_LENGTH];
+    SHAPE   _shape_tree  [MAX_TREE_LENGTH];
 } TREE;
 
-TREE *ResourceManager(_get_current_object_tree)();
 SPRITE *ResourceManager(_get_sprite_object)(const char *_object_name);
+SHAPE *ResourceManager(_get_shape_object)(const char *_object_name);
+TREE *ResourceManager(_get_current_object_tree)();
 
-void ResourceManager(_destroy_object_tree)();
 void ResourceManager(_render_object_tree)(Shader *_shader);
+void ResourceManager(_destroy_object_tree)();
 void ResourceManager(_init_object_tree)();
 
 void ResourceManager(_generate_texture)(unsigned int _width, unsigned int _height, unsigned char *_data, Texture *_texture);
