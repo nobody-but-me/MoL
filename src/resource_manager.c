@@ -65,6 +65,7 @@ void ResourceManager(_destroy_object_tree)() {
 	    Object(_kill)(&_object_tree._sprite_tree[i]._object);
 	}
     }
+    printf("[INFO] Objects had been killed successfully. \n");
     return;
 }
 
@@ -74,9 +75,13 @@ void ResourceManager(_render_object_tree)(Shader *_shader) {
 	    // _object_tree._sprite_tree[i]._object._rotation = (float)glfwGetTime();
 	    Object(_render_sprite)(&_object_tree._sprite_tree[i], &_object_tree._texture_tree[i], _shader);
 	}
-	
 	if (_object_tree._shape_tree[i]._initialized == 1) {
-	    Object(_render_rectangle)(&_object_tree._shape_tree[i], _shader);
+	    if (strcmp(_object_tree._shape_tree[i]._shape_type, "RECTANGLE") == 0) {
+		Object(_render_rectangle)(&_object_tree._shape_tree[i], _shader);
+	    }
+	    else if (strcmp(_object_tree._shape_tree[i]._shape_type, "TRIANGLE") == 0){
+		Object(_render_triangle)(&_object_tree._shape_tree[i], _shader);
+	    }
 	}
 	
 	continue;
@@ -140,13 +145,21 @@ void ResourceManager(_init_object_tree)() {
 		    continue;
 		}
 	    }
-	    if (strcmp(_type->valuestring, "RECTANGLE") == 0) {
-		SHAPE _new_rect;
-		_new_rect = Object(_new_rectangle)(_name->valuestring, (vec2){_x->valuedouble, _y->valuedouble}, (vec2){_width->valuedouble, _height->valuedouble}, (vec3){_rot_x->valuedouble, _rot_y->valuedouble, _rot_z->valuedouble}, (vec3){_r->valuedouble, _g->valuedouble, _b->valuedouble});
+	    else if (strcmp(_type->valuestring, "SHAPE") == 0) {
+		cJSON *_shape_type = cJSON_GetObjectItemCaseSensitive(_object, "_shape_type");
+		SHAPE _new_shape;
+		
+		if (strcmp(_shape_type->valuestring, "RECTANGLE") == 0) {
+		    _new_shape = Object(_new_rectangle)(_name->valuestring, (vec2){_x->valuedouble, _y->valuedouble}, (vec2){_width->valuedouble, _height->valuedouble}, (vec3){_rot_x->valuedouble, _rot_y->valuedouble, _rot_z->valuedouble}, (vec3){_r->valuedouble, _g->valuedouble, _b->valuedouble});
+		} 
+		else if (strcmp(_shape_type->valuestring, "TRIANGLE") == 0) {
+		    _new_shape = Object(_new_triangle)(_name->valuestring, (vec2){_x->valuedouble, _y->valuedouble}, (vec2){_width->valuedouble, _height->valuedouble}, (vec3){_rot_x->valuedouble, _rot_y->valuedouble, _rot_z->valuedouble}, (vec3){_r->valuedouble, _g->valuedouble, _b->valuedouble});
+		}
+		
 		for (int i = 0; i < MAX_TREE_LENGTH; i++) {
 		    if (_object_tree._shape_tree[i]._initialized == 0) {
-			_object_tree._shape_tree[i] = _new_rect;
-			printf("[INFO] Rectangle had been initialized successfully. \n");
+			_object_tree._shape_tree[i] = _new_shape;
+			printf("[INFO] %s had been initialized successfully. \n", _shape_type->valuestring);
 			break;
 		    }
 		    continue;
@@ -212,9 +225,8 @@ void ResourceManager(_init)(cJSON *_configuration_json, PROJECT *_game_project) 
     if (cJSON_IsString(_project_version) == false && (_project_version->valuestring == NULL)) {
 	fprintf(stderr, "[INFO] Configuration file :: project version had not been defined or found. \n");
     }
-    
     _game_project->_project_version = _project_version->valuestring;
-    _game_project->_project_path = TEST_PROJECT_PATH;
+    // TODO: sign the project path;
     _game_project->_project_name = _project_name->valuestring;
     _game_project->_json = _configuration_json;
     

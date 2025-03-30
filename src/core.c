@@ -38,6 +38,8 @@ void _opengl_error_callback() {
     }
 }
 
+
+
 bool Core(_get_key_state)(unsigned int _key, unsigned int _key_state) {
     int _state = glfwGetKey(_window, _key);
     
@@ -141,8 +143,8 @@ void Core(_init)(PROJECT *_project) {
     Molson(_set_int)("_object_image", 0, true, &_shader);
     
     ResourceManager(_init_object_tree)();
-    _rectangle = ResourceManager(_get_shape_object)("Rectangle");
-    _jameslee = ResourceManager(_get_sprite_object)("JamesLee");
+    // _rectangle = ResourceManager(_get_shape_object)("Rectangle");
+    // _jameslee = ResourceManager(_get_sprite_object)("JamesLee");
     
     Core(_set_current_engine_state)(_EDITOR);
     printf("[INFO] Application initialized. \n");
@@ -173,21 +175,21 @@ int Core(_loop)() {
 	_running = false;
     }
     
-    _rectangle->_object._rotation[0] = (float)glfwGetTime();
-    _rectangle->_object._rotation[1] = (float)glfwGetTime();
+    // _rectangle->_object._rotation[0] = (float)glfwGetTime();
+    // _rectangle->_object._rotation[1] = (float)glfwGetTime();
     
-    if (Core(_get_key_state)(GLFW_KEY_D, GLFW_PRESS)) {
-	_jameslee->_object._position[0] += 10;
-    }
-    if (Core(_get_key_state)(_MOL_KEY_A, GLFW_PRESS)) {
-	_jameslee->_object._position[0] -= 10;
-    }
-    if (Core(_get_key_state)(GLFW_KEY_W, GLFW_PRESS)) {
-	_jameslee->_object._position[1] -= 10;
-    }
-    if (Core(_get_key_state)(GLFW_KEY_S, GLFW_PRESS)) {
-	_jameslee->_object._position[1] += 10;
-    }
+    // if (Core(_get_key_state)(GLFW_KEY_D, GLFW_PRESS)) {
+    // 	_jameslee->_object._position[0] += 10;
+    // }
+    // if (Core(_get_key_state)(_MOL_KEY_A, GLFW_PRESS)) {
+    // 	_jameslee->_object._position[0] -= 10;
+    // }
+    // if (Core(_get_key_state)(GLFW_KEY_W, GLFW_PRESS)) {
+    // 	_jameslee->_object._position[1] -= 10;
+    // }
+    // if (Core(_get_key_state)(GLFW_KEY_S, GLFW_PRESS)) {
+    // 	_jameslee->_object._position[1] += 10;
+    // }
     
     ResourceManager(_render_object_tree)(&_shader);
     return 0;

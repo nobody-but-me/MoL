@@ -1,4 +1,4 @@
-# MoL  ̶g̶a̶m̶e̶(physics) engine
+# MoL ̶p̶h̶y̶s̶i̶c̶s̶(game) engine
 
 This is(more and less) my first attempt creating a real game engine. All other attempts were inside other game engines, so I do not consider them too much. And that is not even the first version of the "real" MoL; it is probably the fourth version of this engine, going through versions in C++ and even Vulkan.
 
@@ -8,9 +8,9 @@ Furthermore, I am going to try not to suddenly rewrite this engine again, but I 
 
 ## How to build
 
-No silly build tools or anything. Just compiling and running. That should be something to think about.
+No silly build tools or anything. Just compiling and running through a very, very simple bash script. This should be something to think about...
 
-Dependencies(I am forgetting something):
+Dependencies(I feel like I am forgetting something):
 - glfw;
 - glad;
 

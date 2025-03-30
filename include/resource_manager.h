@@ -12,8 +12,8 @@
 #include "./cJSON.h"
 #include "./map.h"
 
-#define TEST_PROJECT_PATH "./mol-test-game/"
-
+#define TEST_PROJECT_PATH "./examples/mol-test-game/"
+#define PONG_EXAMPLE      "./examples/pong-example/"
 
 typedef struct _project {
     const char *_project_version;

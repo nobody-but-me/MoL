@@ -1,0 +1,36 @@
+{
+    "_project_version": "0.0.0.1",
+    "_project_name": "Pong Clone",
+    "_current_scene": "Game",
+    "_scenes": {
+	"Game": {
+	    "_background_colour": {
+		"r": 0.024, 
+		"g": 0.024, 
+		"b": 0.024, 
+		"a": 0.024
+	    },
+	    "_objects": {
+		"0": {
+		    "_name": "Ball",
+		    "x": 400.0,
+		    "y": 300.0,
+		    "z": 0.0,
+		    "_width": 100.0,
+		    "_height": 100.0,
+		    
+		    "_rot_x": 0.0,
+		    "_rot_y": 0.0,
+		    "_rot_z": 0.0,
+		    
+		    "r": 1.0, 
+		    "g": 1.0, 
+		    "b": 1.0,
+		    
+		    "_type": "SHAPE",
+		    "_shape_type": "RECTANGLE"
+		}
+	    }
+	}
+    }
+}
