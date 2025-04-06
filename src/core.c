@@ -171,29 +171,20 @@ void Core(_destroy)() {
 }
 
 // TODO: temporary code since, in the future, Lua will be embeeded as scripting language.
-
-bool _is_rectangles_colliding(SHAPE * _rect1, SHAPE * _rect2) {
-    if (_rect1->_object._position[0] < _rect2->_object._position[0] + _rect2->_object._scale[0] &&
-        _rect1->_object._position[0] + _rect1->_object._scale[0] > _rect2->_object._position[0] && 
-	_rect1->_object._position[1] < _rect2->_object._position[1] + _rect2->_object._scale[1] &&
-	_rect1->_object._position[1] + _rect1->_object._scale[1] > _rect2->_object._position[1]
-    ) {
-	return true;
-    }
-    return false;
-}
+#define COLLISION_IMPLEMENTATION
+#include "../include/physics/collision.h"
 
 const float _ball_speed = 1;
 vec4 _screen;
 vec2 _ball_velocity;
 
 void _ball_movement() {
-    if (_is_rectangles_colliding(_ball, _paddle_2)) {
+    if (_is_rectangle_colliding(_ball, _paddle_2)) {
 	_ball_velocity[0] = -_ball_velocity[0];
 	_ball_velocity[0] *= 1.05;
 	_ball_velocity[1] *= 1.05;
     }
-    else if (_is_rectangles_colliding(_ball, _paddle_1)) {
+    else if (_is_rectangle_colliding(_ball, _paddle_1)) {
 	_ball_velocity[0] = -_ball_velocity[0];
 	_ball_velocity[0] *=  1.05;
 	_ball_velocity[1] *= -1.05;
