@@ -13,11 +13,49 @@
 	    "_objects": {
 		"0": {
 		    "_name": "Ball",
-		    "x": 400.0,
-		    "y": 300.0,
+		    "x": 385.0,
+		    "y": 285.0,
 		    "z": 0.0,
-		    "_width": 100.0,
-		    "_height": 100.0,
+		    "_width":  30.0,
+		    "_height": 30.0,
+		    
+		    "_rot_x": 0.0,
+		    "_rot_y": 0.0,
+		    "_rot_z": 0.0,
+		    
+		    "r": 1.0, 
+		    "g": 1.0, 
+		    "b": 1.0,
+		    
+		    "_type": "SHAPE",
+		    "_shape_type": "RECTANGLE"
+		},
+		"1": {
+		    "_name": "Paddle1",
+		    "x": 25.0,
+		    "y": 235.0,
+		    "z": 0.0,
+		    "_width":  30.0,
+		    "_height": 130.0,
+		    
+		    "_rot_x": 0.0,
+		    "_rot_y": 0.0,
+		    "_rot_z": 0.0,
+		    
+		    "r": 1.0, 
+		    "g": 1.0, 
+		    "b": 1.0,
+		    
+		    "_type": "SHAPE",
+		    "_shape_type": "RECTANGLE"
+		},
+		"2": {
+		    "_name": "Paddle2",
+		    "x": 750.0,
+		    "y": 235.0,
+		    "z": 0.0,
+		    "_width":  30.0,
+		    "_height": 130.0,
 		    
 		    "_rot_x": 0.0,
 		    "_rot_y": 0.0,

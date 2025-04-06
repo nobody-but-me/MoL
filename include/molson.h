@@ -77,6 +77,8 @@ const char *Molson(_file_to_string)(const char *_file_path) {
 BLANK:
     printf("[INFO] File is blank. \n");
     fclose(_file);
+    
+    _buffer = malloc(sizeof(char));
     free(_buffer);
     return NULL;
 }

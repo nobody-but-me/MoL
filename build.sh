@@ -8,11 +8,11 @@
 # read -rep $"[CONFIG] (y or n): " _run
 
 _CC=gcc
-_FLAGS=(-lglfw)
+_FLAGS=(-lglfw -lm -Wall -std=c11 -Wno-int-conversion -Wno-unused-result -Wno-unused-parameter -Wno-stringop-overflow)
 _SOURCES=./src/*.c
 
 compile() {
-    time $_CC -o ./build/MoL $_SOURCES -I./include/ -I./lib/ ${_FLAGS[*]} -lm -Werror -Wall -Wno-unused-variable -Wno-int-conversion -Wno-unused-function
+    time $_CC -o ./build/MoL $_SOURCES -I./include/ -I./lib/ ${_FLAGS[*]}
 }
 
 if [ $1 == "--c" ]; then
