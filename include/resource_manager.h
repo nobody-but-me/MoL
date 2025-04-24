@@ -12,7 +12,7 @@
 #include "./cJSON.h"
 #include "./map.h"
 
-#define PONG_EXAMPLE      "./examples/pong-example/"
+#define PONG_EXAMPLE "./examples/pong-example/"
 #define TEST_EXAMPLE "./examples/mol-test-game/"
 
 typedef struct _project {

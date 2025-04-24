@@ -1,126 +1,136 @@
 {
-    
     "_project_version": "0.0.0.1",
     "_project_name": "Test Game",
-    "_current_scene": "Scene2",
+    "_current_scene": "Clear",
     "_scenes": {
-	"Scene1": {
-	    "_background_colour": {
-		"r": 1.0, 
-		"g": 1.0, 
-		"b": 1.0, 
-		"a": 1.0
-	    },
-	    "_objects": {
-		"0": {
-		    "_name": "Miranda",
-		    "x": 0.0, 
-		    "y": 125.0,
-		    "z": 0.0,
-		    "_width":  1000.0, 
-		    "_height": 350.0, 
-		    
-		    "_rot_x": 0.0,
-		    "_rot_y": 0.0,
-		    "_rot_z": 45.0,
-		    
-		    "r": 1.0, 
-		    "g": 1.0, 
-		    "b": 1.0, 
-		    
-		    "_type": "SPRITE",
-		    "_texture": "./assets/miranda69.png",
-		    "_alpha": true
+		"Scene1": {
+			"_background_colour": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"_objects": {
+				"0": {
+					"_name": "Miranda",
+					"x": 0.0,
+					"y": 125.0,
+					"z": 0.0,
+					"_width":  1000.0,
+					"_height": 350.0,
+
+					"_rot_x": 0.0,
+					"_rot_y": 0.0,
+					"_rot_z": 45.0,
+
+					"r": 1.0,
+					"g": 1.0,
+					"b": 1.0,
+
+					"_type": "SPRITE",
+					"_texture": "./assets/jameslee_.png",
+					"_alpha": true
+				},
+				"1": {
+					"_name": "AwesomeFace",
+					"x": 10.0,
+					"y": 10.0,
+					"z":  0.0,
+					"_width":  200.0,
+					"_height": 200.0,
+
+					"_rot_x":   0.0,
+					"_rot_y":   0.0,
+					"_rot_z": -45.0,
+
+					"r": 1.0,
+					"g": 1.0,
+					"b": 1.0,
+
+					"_type": "SPRITE",
+					"_texture": "./assets/awesomeface.png",
+					"_alpha": true
+				}
+			}
 		},
-		"1": {
-		    "_name": "AwesomeFace",
-		    "x": 10.0, 
-		    "y": 10.0,
-		    "z": 0.0,
-		    "_width":  200.0, 
-		    "_height": 200.0,
-		    
-		    "_rot_x": 0.0,
-		    "_rot_y": 0.0,
-		    "_rot_z": -45.0,
-		    
-		    "r": 1.0,
-		    "g": 1.0,
-		    "b": 1.0,
-		    
-		    "_type": "SPRITE",
-		    "_texture": "./assets/awesomeface.png",
-		    "_alpha": true
+		"Scene2": {
+			"_background_colour": {
+				"r": 0.0,
+				"g": 1.0,
+				"b": 0.0,
+				"a": 1.0
+			},
+			"_objects": {
+				"0": {
+					"_name": "JamesLee",
+					"x": 10.0,
+					"y": 10.0,
+					"z": 0.0,
+					"_width": 250.0,
+					"_height": 250.0,
+
+					"_rot_x": 0.0,
+					"_rot_y": 0.0,
+					"_rot_z": 0.0,
+
+					"r": 1.0,
+					"g": 1.0,
+					"b": 1.0,
+
+					"_type": "SPRITE",
+					"_texture": "./assets/miranda69.png",
+					"_alpha": true
+				},
+				"1": {
+					"_name": "Rectangle",
+					"x": 300.0,
+					"y": 100.0,
+					"z":   0.0,
+					"_width":  100.0,
+					"_height": 100.0,
+
+					"_rot_x": 0.0,
+					"_rot_y": 0.0,
+					"_rot_z": 0.0,
+
+					"r": 1.0,
+					"g": 1.0,
+					"b": 1.0,
+
+					"_type": "SHAPE",
+					"_shape_type": "RECTANGLE"
+				},
+				"2": {
+					"_name": "Triangle",
+					"x": 300.0,
+					"y": 300.0,
+					"z": 0.0,
+					"_width":  350.0,
+					"_height": 250.0,
+
+					"_rot_x": 0.0,
+					"_rot_y": 0.0,
+					"_rot_z": 0.0,
+
+					"r": 0.024,
+					"g": 0.024,
+					"b": 0.024,
+
+					"_type": "SHAPE",
+					"_shape_type": "TRIANGLE"
+				}
+			}
+		},
+		"Clear": {
+			"_background_colour": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"_objects": {
+
+			}
 		}
-	    }
-	},
-	"Scene2": {
-	    "_background_colour": {
-		"r": 0.0, 
-		"g": 1.0, 
-		"b": 0.0, 
-		"a": 1.0
-	    },
-	    "_objects": {
-		"0": {
-		    "_name": "JamesLee",
-		    "x": 10.0, 
-		    "y": 10.0,
-		    "z": 0.0,
-		    "_width": 250.0, 
-		    "_height": 250.0,
-
-		    "_rot_x": 0.0,
-		    "_rot_y": 0.0,
-		    "_rot_z": 0.0,
-		    
-		    "r": 1.0, 
-		    "g": 1.0, 
-		    "b": 1.0,
-		    
-		    "_type": "SPRITE",
-		    "_texture": "./assets/miranda69.png",
-		    "_alpha": true
-		},
-		"1": {
-		    "_name": "Rectangle",
-		    "x": 300.0, 
-		    "y": 100.0,
-		    "z": 0.0,
-		    "_width": 100.0,
-		    "_height": 100.0,
-
-		    "_rot_x": 0.0,
-		    "_rot_y": 0.0,
-		    "_rot_z": 0.0,
-		    
-		    "r": 1.0, 
-		    "g": 1.0, 
-		    "b": 1.0,
-		    
-		    "_type": "SHAPE",
-		    "_shape_type": "RECTANGLE"
-		},
-		"2": {
-		    "_name": "Triangle",
-		    "x": 300.0, 
-		    "y": 300.0,
-		    "z": 0.0,
-		    "_width":  350.0, 
-		    "_height": 250.0,
-
-		    "_rot_x": 0.0,
-		    "_rot_y": 0.0,
-		    "_rot_z": 0.0,
-		    
-		    "r": 0.024, 
-		    "g": 0.024, 
-		    "b": 0.024,
-		    
-		    "_type": "SHAPE",
-		    "_shape_type": "TRIANGLE"
-		}
-	    }
-	}
     }
 }

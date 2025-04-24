@@ -33,8 +33,8 @@ bool _running = false;
 void _opengl_error_callback() {
     GLenum _error = glGetError();
     if (_error != GL_NO_ERROR) {
-	printf("[ERROR] OpenGL Error");
-	return;
+	    printf("[ERROR] OpenGL Error");
+	    return;
     }
 }
 
@@ -44,7 +44,7 @@ bool Core(_get_key_state)(unsigned int _key, unsigned int _key_state) {
     int _state = glfwGetKey(_window, _key);
     
     if (_state == _key_state) {
-	return true;
+	    return true;
     }
     return false;
 }
@@ -85,26 +85,17 @@ static void _window_resized_callback(GLFWwindow *_window, int _w, int _h) {
     return;
 }
 
-// NOTE: just for tests purposes -- this will be changed in the soon future;
-SHAPE *_paddle_1;
-SHAPE *_paddle_2;
-SHAPE *_ball;
-
-// SPRITE *_jameslee;
-// SHAPE *_rectangle;
-
 static void _key_callback(GLFWwindow *_window, int _key, int scancode, int _action, int _mods) {
-    
     if (_key == GLFW_KEY_ESCAPE && _action == GLFW_PRESS) {
-	_running = false;
-	return;
+	    _running = false;
+	    return;
     }
     
 }
 void Core(_init)(PROJECT *_project) {
     if (!glfwInit()) {
-	printf("[FAILED] GLFW library could not be loaded. \n");
-	return;
+	    printf("[FAILED] GLFW library could not be loaded. \n");
+	    return;
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -114,15 +105,15 @@ void Core(_init)(PROJECT *_project) {
     _window = glfwCreateWindow(_WIDTH, _HEIGHT, _TITLE, NULL, NULL);
     
     if (_window == NULL) {
-	printf("[FAILED] Application window could not be created. \n");
-	return;
+	    printf("[FAILED] Application window could not be created. \n");
+	    return;
     }
     glfwMakeContextCurrent(_window);
     glfwSwapInterval(1);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-	printf("[FAILED] Glad header library could not be loaded. \n");
-	return;
+	    printf("[FAILED] Glad header library could not be loaded. \n");
+	    return;
     }
     
     glfwSetFramebufferSizeCallback(_window, _window_resized_callback);
@@ -148,11 +139,6 @@ void Core(_init)(PROJECT *_project) {
     Molson(_set_int)("_object_image", 0, true, &_shader);
     
     ResourceManager(_init_object_tree)();
-    _paddle_1 = ResourceManager(_get_shape_object)("Paddle1");
-    _paddle_2 = ResourceManager(_get_shape_object)("Paddle2");
-    _ball = ResourceManager(_get_shape_object)("Ball");
-    // _jameslee = ResourceManager(_get_sprite_object)("JamesLee");
-    // _rectangle = ResourceManager(_get_shape_object)("Rectangle");
     
     Core(_set_current_engine_state)(_EDITOR);
     printf("[INFO] Application initialized. \n");
@@ -170,68 +156,15 @@ void Core(_destroy)() {
     return;
 }
 
-// TODO: temporary code since, in the future, Lua will be embeeded as scripting language.
-#define COLLISION_IMPLEMENTATION
-#include "../include/physics/collision.h"
-
-const float _ball_speed = 1;
-vec4 _screen;
-vec2 _ball_velocity;
-
-void _ball_movement() {
-    if (_is_rectangle_colliding(_ball, _paddle_2)) {
-	_ball_velocity[0] = -_ball_velocity[0];
-	_ball_velocity[0] *= 1.05;
-	_ball_velocity[1] *= 1.05;
-    }
-    else if (_is_rectangle_colliding(_ball, _paddle_1)) {
-	_ball_velocity[0] = -_ball_velocity[0];
-	_ball_velocity[0] *=  1.05;
-	_ball_velocity[1] *= -1.05;
-    }
-    
-    _ball->_object._position[0] += _ball_velocity[0] * _ball_speed;
-    _ball->_object._position[1] += _ball_velocity[1] * _ball_speed;
-}
-
 int Core(_ready)() {
     printf("\n[INFO] Hello, MoL! \n\n");
-    
-    _ball_velocity[0] = 3;
-    _ball_velocity[1] = -0.6;
-    
-    _screen[0] = 0.0f;
-    _screen[1] = 0.0f;
-    _screen[2] = _WIDTH;
-    _screen[3] = _HEIGHT;
     return 0;
 }
 int Core(_loop)() {
-    
-    // _sprite1._object._rotation = (float)glfwGetTime() * 
-    
     ResourceManager(_render_object_tree)(&_shader);
     if (glfwWindowShouldClose(_window)) {
-	_running = false;
+	    _running = false;
     }
-    
-    // _rectangle->_object._rotation[0] = (float)glfwGetTime();
-    // _rectangle->_object._rotation[1] = (float)glfwGetTime();
-    
-    // if (Core(_get_key_state)(GLFW_KEY_D, GLFW_PRESS)) {
-    // 	_jameslee->_object._position[0] += 10;
-    // }
-    // if (Core(_get_key_state)(_MOL_KEY_A, GLFW_PRESS)) {
-    // 	_jameslee->_object._position[0] -= 10;
-    // }
-    if (Core(_get_key_state)(GLFW_KEY_W, GLFW_PRESS)) {
-	_paddle_1->_object._position[1] -= 5;
-    }
-    if (Core(_get_key_state)(GLFW_KEY_S, GLFW_PRESS)) {
-	_paddle_1->_object._position[1] += 5;
-    }
-    _paddle_2->_object._position[1] = _ball->_object._position[1] - (_paddle_2->_object._scale[1] / 2 - _ball->_object._scale[1] / 2);
-    
-   _ball_movement();
+
     return 0;
 }
