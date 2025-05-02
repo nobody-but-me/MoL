@@ -15,7 +15,7 @@
 #include <data.h>
 
 
-void Object(_kill)(Object *_self) {
+void Object(_kill)(OBJECT *_self) {
     glDeleteVertexArrays(1, &_self->_vao);
     glDeleteBuffers(1, &_self->_vbo);
     glDeleteBuffers(1, &_self->_ebo);

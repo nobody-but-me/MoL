@@ -9,6 +9,8 @@
 
 #include <cJSON.h>
 
+#define MOLUI_IMPLEMENTATION
+#include <molui/molui.h>
 
 void _error_callback(int _err_num, const char *_err_description) {
     printf("[FAILED] GLFW %d ERROR: %s. \n", _err_num, _err_description);
@@ -44,14 +46,17 @@ int main(int argc, char **argv) {
     ResourceManager(_init)(_config_json, &_game_project);
     
     Core(_init)(&_game_project);
-    
     Core(_ready)();
+    
+    BUTTON _button;
+    _create_button(50, 50, 150, 150, (float [3]){1.0f, 0.0f, 0.0f}, &_button);
+    
     while(Core(_is_window_running)()) {
         cJSON *_current_scene = cJSON_GetObjectItemCaseSensitive(_config_json, "_current_scene");
         if (cJSON_IsString(_current_scene) && _current_scene->valuestring != NULL) {
-            cJSON *_scenes		        = cJSON_GetObjectItemCaseSensitive(_config_json, "_scenes");
-            cJSON *_scene		        = cJSON_GetObjectItemCaseSensitive(_scenes, _current_scene->valuestring);
-            cJSON *_background_color	= cJSON_GetObjectItemCaseSensitive(_scene, "_background_colour");
+            cJSON *_scenes           = cJSON_GetObjectItemCaseSensitive(_config_json, "_scenes");
+            cJSON *_scene            = cJSON_GetObjectItemCaseSensitive(_scenes, _current_scene->valuestring);
+            cJSON *_background_color = cJSON_GetObjectItemCaseSensitive(_scene, "_background_colour");
 
             cJSON *_r = cJSON_GetObjectItemCaseSensitive(_background_color, "r");
             cJSON *_g = cJSON_GetObjectItemCaseSensitive(_background_color, "g");
@@ -64,6 +69,9 @@ int main(int argc, char **argv) {
         }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Core(_loop)();
+	
+	_render_button(&_button, Core(_get_window)());
+	_button._mouse_over(Core(_get_window)(), &_button);
 	
         glfwSwapBuffers(Core(_get_window)());
         glfwPollEvents();

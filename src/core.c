@@ -101,7 +101,7 @@ void Core(_init)(PROJECT *_project) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    // glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     _window = glfwCreateWindow(_WIDTH, _HEIGHT, _TITLE, NULL, NULL);
     
     if (_window == NULL) {

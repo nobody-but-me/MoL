@@ -30,8 +30,7 @@ typedef struct {
     vec3 _scale;
     
     vec3 _colour;
-    
-} Object;
+} OBJECT;
 
 typedef struct {
     unsigned int _fragment_shader;
