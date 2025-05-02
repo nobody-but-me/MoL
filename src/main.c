@@ -63,6 +63,7 @@ int main(int argc, char **argv) {
             cJSON *_b = cJSON_GetObjectItemCaseSensitive(_background_color, "b");
             cJSON *_a = cJSON_GetObjectItemCaseSensitive(_background_color, "a");
 	    
+	    glViewport(0.0f, 0.0f, Core(_get_window_width), Core(_get_window_height));
             glClearColor(_r->valuedouble, _g->valuedouble, _b->valuedouble, _a->valuedouble);
         } else {
             glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
@@ -71,7 +72,14 @@ int main(int argc, char **argv) {
         Core(_loop)();
 	
 	_render_button(&_button, Core(_get_window)());
-	_button._mouse_over(Core(_get_window)(), &_button);
+	// _button._mouse_over(Core(_get_window)(), &_button);
+	if (_button._is_pressed(Core(_get_window)(), &_button)) {
+	    _button._color[0] = 0.0f;
+	    _button._color[1] = 1.0f;
+	} else {
+	    _button._color[0] = 1.0f;
+	    _button._color[1] = 0.0f;
+	}
 	
         glfwSwapBuffers(Core(_get_window)());
         glfwPollEvents();
